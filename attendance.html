@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Attendance Tracking - CloudCampus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* Basic reset and fonts */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            font-size: 16px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #1a2a3a;
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        header .logo img {
+            height: 40px;
+        }
+        header .logo h1 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, #ffffff, #e0e0e0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active {
+            color: #4285f4;
+        }
+        main {
+            flex: 1;
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            padding: 2rem;
+        }
+        h2 {
+            margin-bottom: 1.5rem;
+            color: #1a2a3a;
+        }
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        select, input[type="date"] {
+            padding: 10px;
+            border: 1px solid #e6e8eb;
+            border-radius: 8px;
+            min-width: 160px;
+            font-size: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #eef1f6;
+            padding: 10px 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background: #f3f6fb;
+            color: #334;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: #eef5ff;
+            color: #2b6cb0;
+            font-weight: 600;
+        }
+        input[type="radio"] {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        .actions {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        button {
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        button.save-btn {
+            background-color: #4285f4;
+            color: white;
+            box-shadow: 0 4px 6px rgba(66, 133, 244, 0.25);
+        }
+        button.save-btn:hover {
+            background-color: #2a5db0;
+        }
+        button.cancel-btn {
+            background-color: transparent;
+            border: 2px solid #4285f4;
+            color: #4285f4;
+        }
+        button.cancel-btn:hover {
+            background-color: #4285f4;
+            color: white;
+        }
+        /* Responsive */
+        @media (max-width: 600px) {
+            .filters {
+                flex-direction: column;
+            }
+            select, input[type="date"] {
+                min-width: 100%;
+            }
+            .actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/graduation-cap.png" alt="Logo" />
+            <h1>CloudCampus</h1>
+        </div>
+        <nav>
+            <a href="FacultyHome.html">Dashboard</a>
+            <a href="attendance.html" class="active">Attendance</a>
+            <a href="RoleLogin.html" class="btn-logout">Logout</a>
+            <a href="Assignment.html" >Assignments</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Attendance Tracking</h2>
+        <div class="filters">
+            <select id="attClass" aria-label="Select Class">
+                <option value="CSE101">CSE101 - Intro to CS</option>
+                <option value="CSE201">CSE201 - Data Structures</option>
+                <option value="CSE301">CSE301 - Advanced Programming</option>
+            </select>
+            <select id="attBatch" aria-label="Select Batch"></select>
+            <input id="attDate" type="date" aria-label="Select Date" />
+        </div>
+        <table aria-describedby="attendanceTableDesc">
+            <caption id="attendanceTableDesc" style="text-align:left; margin-bottom: 0.5rem;">List of students and attendance options</caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Present</th>
+                    <th>Absent</th>
+                </tr>
+            </thead>
+            <tbody id="attTbody">
+                <tr><td colspan="5">Select class, batch and date to load students.</td></tr>
+            </tbody>
+        </table>
+        <div class="actions">
+            <button class="cancel-btn" id="btnCancel">Back to Dashboard</button>
+            <button class="save-btn" id="btnSave">Save Attendance</button>
+        </div>
+    </main>
+
+    <script>
+        // Attendance Manager (batches + save to localStorage)
+        const ATTENDANCE_KEY = 'cc_attendance_records';
+        const BATCHES = {
+            CSE101: {
+                'Batch A': [
+                    { id: 'CSE101-A-01', name: 'Aarav Sharma' },
+                    { id: 'CSE101-A-02', name: 'Diya Patel' },
+                    { id: 'CSE101-A-03', name: 'Vivaan Gupta' },
+                    { id: 'CSE101-A-04', name: 'Ishita Verma' },
+                    { id: 'CSE101-A-05', name: 'Rohan Mehta' }
+                ],
+                'Batch B': [
+                    { id: 'CSE101-B-01', name: 'Advait Iyer' },
+                    { id: 'CSE101-B-02', name: 'Myra Rao' },
+                    { id: 'CSE101-B-03', name: 'Ananya Singh' },
+                    { id: 'CSE101-B-04', name: 'Kabir Nair' },
+                    { id: 'CSE101-B-05', name: 'Saanvi Desai' }
+                ]
+            },
+            CSE201: {
+                'Batch A': [
+                    { id: 'CSE201-A-01', name: 'Reyansh Kulkarni' },
+                    { id: 'CSE201-A-02', name: 'Aadhya Reddy' },
+                    { id: 'CSE201-A-03', name: 'Vihaan Chatterjee' },
+                    { id: 'CSE201-A-04', name: 'Zoya Khan' },
+                    { id: 'CSE201-A-05', name: 'Arjun Malhotra' }
+                ],
+                'Batch B': [
+                    { id: 'CSE201-B-01', name: 'Navya Kapoor' },
+                    { id: 'CSE201-B-02', name: 'Aarohi Sinha' },
+                    { id: 'CSE201-B-03', name: 'Krish Batra' },
+                    { id: 'CSE201-B-04', name: 'Tanvi Joshi' },
+                    { id: 'CSE201-B-05', name: 'Ayaan Jain' }
+                ]
+            },
+            CSE301: {
+                'Batch A': [
+                    { id: 'CSE301-A-01', name: 'Ira Mishra' },
+                    { id: 'CSE301-A-02', name: 'Pranav Dutta' },
+                    { id: 'CSE301-A-03', name: 'Meera Menon' },
+                    { id: 'CSE301-A-04', name: 'Ritvik Chakraborty' },
+                    { id: 'CSE301-A-05', name: 'Aisha Shah' }
+                ],
+                'Batch B': [
+                    { id: 'CSE301-B-01', name: 'Yuvraj Pillai' },
+                    { id: 'CSE301-B-02', name: 'Manya Bhatt' },
+                    { id: 'CSE301-B-03', name: 'Parth Anand' },
+                    { id: 'CSE301-B-04', name: 'Rhea Ghosh' },
+                    { id: 'CSE301-B-05', name: 'Devansh Jha' }
+                ]
+            }
+        };
+
+        const classSel = document.getElementById('attClass');
+        const batchSel = document.getElementById('attBatch');
+        const dateInp = document.getElementById('attDate');
+        const tbody = document.getElementById('attTbody');
+        const btnSave = document.getElementById('btnSave');
+        const btnCancel = document.getElementById('btnCancel');
+
+        function getAttendanceKey(cls, batch, dateStr) {
+            return `${cls}|${batch}|${dateStr}`;
+        }
+
+        function populateBatches() {
+            const cls = classSel.value;
+            const batches = Object.keys(BATCHES[cls] || {});
+            batchSel.innerHTML = batches.map(b => `<option value="${b}">${b}</option>`).join('');
+            renderStudents();
+        }
+
+        function renderStudents() {
+            const cls = classSel.value;
+            const batch = batchSel.value;
+            const dateStr = dateInp.value;
+            const students = (BATCHES[cls] && BATCHES[cls][batch]) ? BATCHES[cls][batch] : [];
+            if (!students.length) {
+                tbody.innerHTML = '<tr><td colspan="5">No students found for selected batch.</td></tr>';
+                return;
+            }
+            if (!dateStr) {
+                tbody.innerHTML = '<tr><td colspan="5">Please select a date.</td></tr>';
+                return;
+            }
+
+            // Load saved attendance from localStorage
+            const saved = JSON.parse(localStorage.getItem(ATTENDANCE_KEY) || '{}');
+            const savedKey = getAttendanceKey(cls, batch, dateStr);
+            const savedMap = saved[savedKey] || {};
+
+            tbody.innerHTML = students.map((s, idx) => {
+                const state = savedMap[s.id] || 'present';
+                const pChecked = state === 'present' ? 'checked' : '';
+                const aChecked = state === 'absent' ? 'checked' : '';
+                return `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td><span class="badge">${s.id}</span></td>
+                        <td>${s.name}</td>
+                        <td><input type="radio" name="att_${s.id}" value="present" ${pChecked} aria-label="Present for ${s.name}"></td>
+                        <td><input type="radio" name="att_${s.id}" value="absent" ${aChecked} aria-label="Absent for ${s.name}"></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function saveAttendance() {
+            const cls = classSel.value;
+            const batch = batchSel.value;
+            const dateStr = dateInp.value;
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            if (!dateStr || rows.length === 0) {
+                alert('Please select class, batch, and date to save attendance.');
+                return;
+            }
+
+            const record = {};
+            rows.forEach(row => {
+                const idEl = row.querySelector('td:nth-child(2) .badge');
+                if (!idEl) return;
+                const sid = idEl.textContent.trim();
+                const present = row.querySelector(`input[name="att_${sid}"][value="present"]`);
+                const absent = row.querySelector(`input[name="att_${sid}"][value="absent"]`);
+                let val = 'present';
+                if (absent && absent.checked) val = 'absent';
+                if (present && present.checked) val = 'present';
+                record[sid] = val;
+            });
+
+            const store = JSON.parse(localStorage.getItem(ATTENDANCE_KEY) || '{}');
+            const key = getAttendanceKey(cls, batch, dateStr);
+            store[key] = record;
+            localStorage.setItem(ATTENDANCE_KEY, JSON.stringify(store));
+            alert("Attendance has been saved successfully!");
+        }
+
+        // Initialize date input to today if empty
+        function initDate() {
+            if (!dateInp.value) {
+                const today = new Date();
+                dateInp.value = today.toISOString().slice(0, 10);
+            }
+        }
+
+        // Event listeners
+        classSel.addEventListener('change', populateBatches);
+        batchSel.addEventListener('change', renderStudents);
+        dateInp.addEventListener('change', renderStudents);
+        btnSave.addEventListener('click', saveAttendance);
+        btnCancel.addEventListener('click', () => {
+            if (confirm('Are you sure you want to go back to the dashboard? Unsaved changes will be lost.')) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        // Initialize page
+        initDate();
+        populateBatches();
+    </script>
+</body>
+</html>

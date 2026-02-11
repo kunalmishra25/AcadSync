@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grade Center - CloudCampus Faculty</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #1a2a3a;
+      --secondary-color: #4285f4;
+      --accent-color: #ff5252;
+      --light-color: #f8f9fa;
+      --dark-color: #1a2a3a;
+      --text-color: #333;
+      --text-light: #6c757d;
+      --border-radius: 8px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      --transition: all 0.3s ease;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: var(--light-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      font-size: 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1.2rem 2rem;
+      box-shadow: var(--box-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo img {
+      height: 45px;
+    }
+    .logo h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ffffff, #e0e0e0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0.8rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    main {
+      flex: 1;
+      max-width: 1100px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      overflow-x: auto;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+    }
+    .search-container {
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .search-container input {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius);
+      width: 250px;
+      max-width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+    th, td {
+      border: 1px solid #eef1f6;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+    th {
+      background: #f3f6fb;
+      color: var(--primary-color);
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    td input.grade-input {
+      width: 60px;
+      padding: 4px 6px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius);
+      text-align: center;
+      transition: border-color 0.3s ease;
+    }
+    td input.grade-input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 5px var(--secondary-color);
+    }
+    .save-btn {
+      margin-top: 1.5rem;
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .save-btn:hover {
+      background-color: #2a5db0;
+    }
+    @media (max-width: 768px) {
+      main {
+        padding: 1rem;
+        margin: 1rem;
+      }
+      table {
+        min-width: 600px;
+      }
+      .search-container {
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/graduation-cap.png" alt="CloudCampus Logo"  href="FacultyHome.html"/>
+      <h1>CloudCampus</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="FacultyHome.html">Dashboard</a></li>
+        <li><a href="my-classes.html">My Classes</a></li>
+        <li><a href="grades.html" class="active" aria-current="page">Grades</a></li>
+        <li><a href="assignments.html">Assignments</a></li>
+        <li><a href="attendance.html">Attendance</a></li>
+        <li><a href="RoleLogin.html" class="btn btn-danger" style="background:none; color:white; padding:0;">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Grade Center</h2>
+
+    <div class="search-container">
+      <label for="searchInput" class="visually-hidden">Search students</label>
+      <input type="text" id="searchInput" placeholder="Search by student name or ID" aria-label="Search students" />
+    </div>
+
+    <table aria-describedby="gradesTableDesc" id="gradesTable">
+      <caption id="gradesTableDesc" style="text-align:left; margin-bottom: 0.5rem;">Student grades for assignments</caption>
+      <thead>
+        <tr>
+          <th scope="col">Student ID</th>
+          <th scope="col">Student Name</th>
+          <th scope="col">Assignment 1</th>
+          <th scope="col">Assignment 2</th>
+          <th scope="col">Assignment 3</th>
+          <th scope="col">Final Exam</th>
+          <th scope="col">Average</th>
+        </tr>
+      </thead>
+      <tbody id="gradesTbody">
+        <!-- Rows inserted by JS -->
+      </tbody>
+    </table>
+
+    <button class="save-btn" id="saveGradesBtn" aria-label="Save grades">Save Grades</button>
+  </main>
+
+  <script>
+    // Sample student data with grades
+    let students = JSON.parse(localStorage.getItem('cc_grades_students')) || [
+      { id: 'S001', name: 'Alice Johnson', grades: { a1: 85, a2: 90, a3: 88, final: 92 } },
+      { id: 'S002', name: 'Bob Smith', grades: { a1: 78, a2: 82, a3: 80, final: 85 } },
+      { id: 'S003', name: 'Charlie Lee', grades: { a1: 92, a2: 95, a3: 94, final: 96 } },
+      { id: 'S004', name: 'Diana Prince', grades: { a1: 88, a2: 85, a3: 90, final: 89 } },
+      { id: 'S005', name: 'Ethan Hunt', grades: { a1: 70, a2: 75, a3: 72, final: 78 } }
+    ];
+
+    const tbody = document.getElementById('gradesTbody');
+    const searchInput = document.getElementById('searchInput');
+    const saveBtn = document.getElementById('saveGradesBtn');
+
+    function calculateAverage(grades) {
+      const vals = Object.values(grades);
+      const sum = vals.reduce((a, b) => a + b, 0);
+      return (sum / vals.length).toFixed(1);
+    }
+
+    function renderTable(filter = '') {
+      const term = filter.toLowerCase();
+      const filtered = students.filter(s =>
+        s.name.toLowerCase().includes(term) || s.id.toLowerCase().includes(term)
+      );
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No students found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(student => {
+        const avg = calculateAverage(student.grades);
+        return `
+          <tr data-id="${student.id}">
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td><input type="number" min="0" max="100" class="grade-input" data-field="a1" value="${student.grades.a1}" aria-label="Grade for Assignment 1 for ${student.name}" /></td>
+            <td><input type="number" min="0" max="100" class="grade-input" data-field="a2" value="${student.grades.a2}" aria-label="Grade for Assignment 2 for ${student.name}" /></td>
+            <td><input type="number" min="0" max="100" class="grade-input" data-field="a3" value="${student.grades.a3}" aria-label="Grade for Assignment 3 for ${student.name}" /></td>
+            <td><input type="number" min="0" max="100" class="grade-input" data-field="final" value="${student.grades.final}" aria-label="Grade for Final Exam for ${student.name}" /></td>
+            <td>${avg}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Attach input event listeners to update grades and averages live
+      tbody.querySelectorAll('input.grade-input').forEach(input => {
+        input.addEventListener('input', onGradeInput);
+      });
+    }
+
+    function onGradeInput(e) {
+      const input = e.target;
+      const tr = input.closest('tr');
+      const studentId = tr.dataset.id;
+      const field = input.dataset.field;
+      let val = input.value.trim();
+
+      // Validate input: number between 0 and 100 or empty
+      if (val === '') {
+        val = '';
+      } else {
+        val = Number(val);
+        if (isNaN(val) || val < 0) val = 0;
+        else if (val > 100) val = 100;
+        input.value = val;
+      }
+
+      // Update student data
+      const student = students.find(s => s.id === studentId);
+      if (student) {
+        student.grades[field] = val === '' ? 0 : val;
+        // Update average cell
+        const avgCell = tr.querySelector('td:last-child');
+        avgCell.textContent = calculateAverage(student.grades);
+      }
+    }
+
+    saveBtn.addEventListener('click', () => {
+      localStorage.setItem('cc_grades_students', JSON.stringify(students));
+      alert('Grades saved successfully!');
+    });
+
+    searchInput.addEventListener('input', () => {
+      renderTable(searchInput.value);
+    });
+
+    // Initial render
+    renderTable();
+  </script>
+</body>
+</html>

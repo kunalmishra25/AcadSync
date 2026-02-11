@@ -1,0 +1,283 @@
+.faculty-grades-page {
+  width: 100%;
+}
+
+.page-header {
+  background: linear-gradient(rgba(26, 42, 58, 0.85), rgba(26, 42, 58, 0.9));
+  color: white;
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.page-header p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.main-content {
+  padding: 3rem 0;
+  background-color: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.grades-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border: 1px solid #eef1f6;
+}
+
+.summary-card h3 {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.grades-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a2a3a;
+  margin-bottom: 0.5rem;
+}
+
+.grades-grade {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a2a3a;
+  margin-bottom: 0.5rem;
+}
+
+.grades-percentage {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a2a3a;
+  margin-bottom: 0.5rem;
+}
+
+.grades-detail {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.actions-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.actions-bar h3 {
+  font-size: 1.5rem;
+  color: #1a2a3a;
+  margin: 0;
+}
+
+.add-grade-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-grade-btn:hover {
+  background-color: #3367d6;
+}
+
+.grades-table {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #eef1f6;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.table th {
+  background: #f3f6fb;
+  color: #334;
+  font-weight: 600;
+}
+
+.grade-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.grade-badge.excellent {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.grade-badge.good {
+  background-color: #dbeafe;
+  color: #3b82f6;
+}
+
+.grade-badge.average {
+  background-color: #fef3c7;
+  color: #f59e0b;
+}
+
+.grade-badge.poor {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.edit-btn {
+  padding: 0.4rem 0.8rem;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+  background-color: #3367d6;
+}
+
+.edit-input {
+  width: 60px;
+  padding: 0.3rem;
+  border: 1px solid #4285f4;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.save-btn {
+  padding: 0.3rem 0.6rem;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.save-btn:hover {
+  background-color: #059669;
+}
+
+.cancel-btn {
+  padding: 0.3rem 0.6rem;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #dc2626;
+}
+
+.grade-chart {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eef1f6;
+  margin-top: 1rem;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 250px;
+  padding: 1rem 0;
+}
+
+.chart-bar {
+  width: 60px;
+  background: linear-gradient(to top, #4285f4, #64b5f6);
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.chart-value {
+  position: absolute;
+  top: -25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a2a3a;
+}
+
+.chart-label {
+  position: absolute;
+  bottom: -25px;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+@media (max-width: 768px) {
+  .grades-summary {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-container {
+    overflow-x: auto;
+    padding-bottom: 2rem;
+  }
+  
+  .chart-bar {
+    width: 40px;
+    margin-right: 20px;
+  }
+}

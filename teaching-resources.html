@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Teaching Resources - CloudCampus Faculty</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1a2a3a;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo img {
+    height: 40px;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul li a.active,
+  nav ul li a:hover {
+    background-color: #4285f4;
+  }
+  nav ul li a.btn-danger {
+    background: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  nav ul li a.btn-danger:hover {
+    background-color: #dc3545;
+  }
+
+  h2 { text-align: center; margin-bottom: 1rem; }
+
+  .controls { display: flex; justify-content: space-between; margin-bottom: 1rem; gap: 10px; flex-wrap: wrap; }
+  .controls input, .controls select { padding: 8px; border-radius: 6px; border: 1.5px solid #ccc; font-size: 1rem; }
+
+  form { display: flex; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap; }
+  form input[type="text"], form input[type="file"] { flex: 2; padding: 8px; border-radius: 6px; border: 1.5px solid #ccc; }
+  form input[type="file"] {
+    flex: 1;
+  }
+  form button { padding: 8px 16px; border-radius: 6px; border: none; background-color: #4285f4; color: white; cursor: pointer; }
+  form button:hover { background-color: #2a5db0; }
+
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+  th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+  th { background-color: #4285f4; color: white; }
+  td button, td a { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; color: white; user-select: none; }
+  td button.edit { background-color: #6c757d; }
+  td button.edit:hover { background-color: #495057; }
+  td button.delete { background-color: #dc3545; }
+  td button.delete:hover { background-color: #a71d2a; }
+  td a.download { background-color: #4285f4; }
+  td a.download:hover { background-color: #2a5db0; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="FacultyHome.html" aria-label="Go to Dashboard">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/graduation-cap.png" alt="CloudCampus Logo" />
+      </a>
+      <h1>CloudCampus</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="FacultyHome.html">Dashboard</a></li>
+        <li><a href="my-classes.html">My Classes</a></li>
+        <li><a href="grades.html">Grades</a></li>
+        <li><a href="assignments.html">Assignments</a></li>
+        <li><a href="attendance.html">Attendance</a></li>
+        <li><a href="teaching-resources.html" class="active" aria-current="page">Teaching Resources</a></li>
+        <li><a href="RoleLogin.html" class="btn-danger" onclick="return confirm('Are you sure you want to logout?');">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <h2>Teaching Resources</h2>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search resources..." aria-label="Search resources" />
+    <select id="sort" aria-label="Sort resources">
+      <option value="newest">Sort by: Newest</option>
+      <option value="oldest">Sort by: Oldest</option>
+      <option value="az">Sort by: A-Z</option>
+    </select>
+  </div>
+
+  <form id="resourceForm" aria-label="Add new teaching resource">
+    <input type="text" id="title" placeholder="Resource Title" required aria-required="true" aria-label="Resource Title" />
+    <input type="file" id="fileInput" required aria-required="true" aria-label="Select resource file" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip,.txt,.csv,.xls,.xlsx,.png,.jpg,.jpeg" />
+    <button type="submit" aria-label="Upload resource">Upload Resource</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Resource</th>
+        <th scope="col">Type</th>
+        <th scope="col">Size</th>
+        <th scope="col">Uploaded</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody id="resourceTable" aria-live="polite" aria-relevant="all">
+    </tbody>
+  </table>
+
+<script>
+const form = document.getElementById('resourceForm');
+const titleInput = document.getElementById('title');
+const fileInput = document.getElementById('fileInput');
+const tableBody = document.getElementById('resourceTable');
+const searchInput = document.getElementById('search');
+const sortSelect = document.getElementById('sort');
+
+let resources = JSON.parse(localStorage.getItem('resources')) || [];
+
+function formatBytes(bytes) {
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  if (bytes === 0) return '0 Bytes';
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  return parseFloat((bytes / Math.pow(1024, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+function render() {
+  let filtered = resources.filter(r => r.title.toLowerCase().includes(searchInput.value.toLowerCase()));
+  if (sortSelect.value === 'az') {
+    filtered.sort((a,b) => a.title.localeCompare(b.title));
+  } else if (sortSelect.value === 'oldest') {
+    filtered.sort((a,b) => new Date(a.date) - new Date(b.date));
+  } else {
+    // newest
+    filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
+  }
+
+  if(filtered.length === 0) {
+    tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 20px; color: #666;">No resources found.</td></tr>`;
+    return;
+  }
+
+  tableBody.innerHTML = filtered.map((r,i) => `
+    <tr>
+      <td>${r.title}</td>
+      <td>${r.type}</td>
+      <td>${r.size}</td>
+      <td>${r.date}</td>
+      <td>
+        <a href="${r.url}" download="${r.title}" class="download" aria-label="Download ${r.title}">Download</a>
+        <button class="edit" title="Edit resource" aria-label="Edit ${r.title}" onclick="editResource(event, ${i})">Edit</button>
+        <button class="delete" title="Delete resource" aria-label="Delete ${r.title}" onclick="deleteResource(event, ${i})">Delete</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const title = titleInput.value.trim();
+  const file = fileInput.files[0];
+  if (!title) {
+    alert("Please enter a resource title.");
+    return;
+  }
+  if (!file) {
+    alert("Please select a file.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const url = e.target.result;
+    // Use file.type if available, else fallback to extension uppercase
+    const type = file.type ? file.type.split('/').pop().toUpperCase() : file.name.split('.').pop().toUpperCase();
+    const size = formatBytes(file.size);
+    const date = new Date().toISOString().split('T')[0];
+    resources.unshift({title, type, size, date, url});
+    localStorage.setItem('resources', JSON.stringify(resources));
+    render();
+    form.reset();
+  };
+  reader.readAsDataURL(file);
+});
+
+function deleteResource(event, index) {
+  event.preventDefault();
+  if (!confirm("Delete this resource?")) return;
+  resources.splice(index, 1);
+  localStorage.setItem('resources', JSON.stringify(resources));
+  render();
+}
+
+function editResource(event, index) {
+  event.preventDefault();
+  const r = resources[index];
+  titleInput.value = r.title;
+  fileInput.value = '';
+  resources.splice(index, 1);
+  localStorage.setItem('resources', JSON.stringify(resources));
+  render();
+}
+
+searchInput.addEventListener('input', render);
+sortSelect.addEventListener('change', render);
+
+render();
+</script>
+</body>
+</html>
