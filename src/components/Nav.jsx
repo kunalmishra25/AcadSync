@@ -104,8 +104,8 @@ const Nav = ({ userRole }) => {
   };
 
   return (
-    <nav>
-      <ul>
+    <nav className="app-nav">
+      <ul className="app-nav-list">
         {renderNavLinks()}
         {user && user.name && (user.role === "Student" || user.role === "Faculty") && (
           <li className="user-dropdown">

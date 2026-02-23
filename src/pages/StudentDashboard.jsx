@@ -10,7 +10,7 @@ const StudentDashboard = () => {
       <div className="dashboard-header">
         <h1 className="dashboard-title-animated">Student Dashboard</h1>
         <p>
-          Welcome back, Rahul Sharma! Access your courses, check attendance, view grades,
+          Welcome back, Access your courses, check attendance, view grades,
           and manage all your academic activities from this dashboard.
         </p>
         <div className="dashboard-actions">

@@ -12,9 +12,9 @@ const Header = () => {
   }, []);
 
   return (
-    <header>
-      <div className="container header-container">
-        <div className="logo">
+    <header className="app-header">
+      <div className="app-header-container">
+        <div className="app-logo">
           <img
             src="/AS-logo.png"
             alt="AcadSync Logo"

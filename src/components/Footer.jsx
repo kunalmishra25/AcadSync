@@ -43,7 +43,7 @@ const Footer = () => (
       </div>
 
       <div className="footer-divider" />
-      <div className="copyright">© 2025 AcadSync Admin Dashboard. All rights reserved.</div>
+      <div className="copyright">(c) 2025 AcadSync Admin Dashboard. All rights reserved.</div>
     </div>
   </footer>
 );
