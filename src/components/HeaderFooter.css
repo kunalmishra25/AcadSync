@@ -1,15 +1,30 @@
 /* Header & Footer CSS */
+body {
+  padding-top: 70px;
+}
+
 .app-header {
   background-color: #1a2a3a;
   color: white;
   padding: 0.9rem 0;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease;
 }
 
-.app-header-container {
+.app-header.visible {
+  transform: translateY(0);
+}
+
+.app-header.hidden {
+  transform: translateY(-100%);
+}
+
+.header-container {
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
   display: flex;
@@ -18,19 +33,18 @@
   gap: 1rem;
 }
 
-.app-logo {
+.header-container .logo {
   display: flex;
+  flex-direction: row;
   align-items: center;
 }
-
-.app-logo img {
+.header-container .logo img {
   height: 50px;
   width: auto;
   object-fit: contain;
-  margin-right: 10px;
+  margin-right: 12px;
 }
-
-.app-logo h1 {
+.header-container .logo h1 {
   font-size: 1.6rem;
   color: white;
   font-weight: 700;
@@ -143,7 +157,7 @@
 }
 
 @media (max-width: 980px) {
-  .app-header-container {
+  .header-container {
     width: min(1120px, calc(100% - 1.5rem));
     flex-direction: column;
     align-items: flex-start;
@@ -157,7 +171,7 @@
 }
 
 @media (max-width: 580px) {
-  .app-logo h1 {
+  .header-container .logo h1 {
     font-size: 1.35rem;
   }
 
