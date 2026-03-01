@@ -6,6 +6,7 @@ const Header = () => {
   const [userRole, setUserRole] = useState("");
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -18,6 +19,7 @@ const Header = () => {
       
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false);
+        setIsMobileMenuOpen(false);
       } else {
         setIsVisible(true);
       }
@@ -42,7 +44,18 @@ const Header = () => {
           {userRole === "Faculty" && <span className="admin-badge" style={{background: "#4285f4"}}>FACULTY</span>}
           {userRole === "Student" && <span className="admin-badge" style={{background: "#10B981"}}>STUDENT</span>}
         </div>
-        <Nav userRole={userRole} />
+        <button 
+          className="mobile-menu-toggle"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div className={`nav-wrapper ${isMobileMenuOpen ? 'open' : ''}`}>
+          <Nav userRole={userRole} />
+        </div>
       </div>
     </header>
   );
