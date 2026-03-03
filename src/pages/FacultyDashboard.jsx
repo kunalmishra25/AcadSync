@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./FacultyDashboard.css";
+import "./DashboardShared.css";
 
 const FacultyDashboard = () => {
   const navigate = useNavigate();

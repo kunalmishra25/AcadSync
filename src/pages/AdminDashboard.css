@@ -52,37 +52,6 @@
   margin-top: 30px;
 }
 
-.btn {
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s ease;
-  font-size: 0.95rem;
-}
-
-.btn-primary {
-  background-color: #4f46e5;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #4338ca;
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
-}
-
 .btn-danger {
   background-color: #ef4444;
   color: white;
@@ -116,43 +85,6 @@
   font-size: 1.1rem;
 }
 
-.quick-actions-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.action-card {
-  background-color: #111827; /* Dark color from screenshot */
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  text-align: center;
-  padding: 32px 24px;
-  color: white;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 280px;
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
-}
-
-.action-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
-}
-
-.action-card:focus-visible {
-  outline: 3px solid #60a5fa;
-  outline-offset: 3px;
-}
-
 .action-card::before {
   content: '';
   position: absolute;
@@ -163,58 +95,8 @@
   background: linear-gradient(90deg, #4f46e5, #06b6d4);
 }
 
-.card-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.08);
-  margin: 0 auto 20px;
-}
-
-.action-card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 12px;
-  font-weight: 600;
-  color: white;
-}
-
-.action-card p {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 24px;
-  flex-grow: 1;
-}
-
-.access-btn {
-  background-color: #4f46e5;
-  color: white;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
-  margin-top: auto;
-}
-
-.access-btn:hover {
-  background-color: #4338ca;
-  transform: translateY(-1px);
-}
-
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .quick-actions-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-  }
-  
   .dashboard-header {
     padding: 50px 30px;
   }
@@ -225,11 +107,6 @@
 }
 
 @media (max-width: 768px) {
-  .quick-actions-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
   .dashboard-header {
     padding: 40px 20px;
   }
@@ -246,15 +123,6 @@
     font-size: 2rem;
   }
   
-  .dashboard-actions {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .btn {
-    width: 200px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -286,23 +154,5 @@
 }
 .quick-actions-section > p {
   color: #94a3b8;
-}
-.action-card {
-  background-color: #111827; /* Dark color for boxes */
-  border: 1px solid #374151;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-}
-.action-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
-}
-.card-icon {
-  background: rgba(255, 255, 255, 0.08);
-}
-.action-card h3 {
-  color: #e5e7eb;
-}
-.action-card p {
-  color: #cbd5e1;
 }
 /* keep existing layout, only colors adjusted */

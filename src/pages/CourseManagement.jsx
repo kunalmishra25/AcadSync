@@ -93,7 +93,7 @@ const CourseManagement = () => {
         <div className="container">
           <div className="actions-bar">
             <h3>Manage Courses</h3>
-            <Link to="/admin" className="btn btn-outline">Back to Dashboard</Link>
+            <Link to="/admin/dashboard" className="btn btn-outline">Back to Dashboard</Link>
           </div>
 
           <div className="form-row">
