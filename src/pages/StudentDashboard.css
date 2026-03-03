@@ -112,10 +112,15 @@
   align-items: center;
   min-height: 280px;
   position: relative;
+  text-decoration: none;
 }
 .action-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+}
+.action-card:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
 }
 .card-icon {
   width: 60px;

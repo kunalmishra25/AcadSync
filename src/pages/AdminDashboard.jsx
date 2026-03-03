@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";          
 
 const AdminDashboard = () => {
@@ -28,7 +28,7 @@ const AdminDashboard = () => {
         <p>Access the most frequently used administrative functions with just one click.</p>
         
         <div className="quick-actions-grid">
-          <div className="action-card" onClick={() => navigate("/students")}>
+          <Link to="/students" className="action-card">
             <div className="card-icon students-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#8B5CF6"/>
@@ -37,9 +37,9 @@ const AdminDashboard = () => {
             </div>
             <h3>Manage Students</h3>
             <p>Add, edit, or remove student records and manage enrollments</p>
-            <button className="access-btn">Access</button>
-          </div>
-          <div className="action-card" onClick={() => navigate("/faculty")}>
+            <span className="access-btn">Access</span>
+          </Link>
+          <Link to="/faculty" className="action-card">
             <div className="card-icon faculty-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#10B981"/>
@@ -49,10 +49,10 @@ const AdminDashboard = () => {
             </div>
             <h3>Manage Faculty</h3>
             <p>Handle faculty profiles, assignments, and workload distribution</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/courses")}>
+          <Link to="/courses" className="action-card">
             <div className="card-icon courses-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <rect x="3" y="4" width="18" height="16" rx="2" fill="#06B6D4"/>
@@ -61,10 +61,10 @@ const AdminDashboard = () => {
             </div>
             <h3>Course Management</h3>
             <p>Create, modify, and manage course offerings and schedules</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/announcements")}>
+          <Link to="/announcements" className="action-card">
             <div className="card-icon announcements-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M19 8.5V7C19 5.89543 18.1046 5 17 5H7C5.89543 5 5 5.89543 5 7V17C5 18.1046 5.89543 19 7 19H17C18.1046 19 19 18.1046 19 17V15.5" fill="#EF4444"/>
@@ -73,10 +73,10 @@ const AdminDashboard = () => {
             </div>
             <h3>Post Announcements</h3>
             <p>Create and publish important announcements to students and faculty</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/reports")}>
+          <Link to="/reports" className="action-card">
             <div className="card-icon reports-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <rect x="3" y="3" width="18" height="18" rx="2" fill="#10B981"/>
@@ -88,10 +88,10 @@ const AdminDashboard = () => {
             </div>
             <h3>Generate Reports</h3>
             <p>Create comprehensive reports on attendance, performance, and analytics</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/settings")}>
+          <Link to="/settings" className="action-card">
             <div className="card-icon settings-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" fill="#64748B"/>
@@ -100,8 +100,8 @@ const AdminDashboard = () => {
             </div>
             <h3>System Settings</h3>
             <p>Configure system parameters, user roles, and security settings</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
         </div>
       </div>
     </div>

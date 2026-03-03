@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./FacultyDashboard.css";
 
 const FacultyDashboard = () => {
@@ -28,7 +28,7 @@ const FacultyDashboard = () => {
         <p>Access the most frequently used faculty functions with just one click.</p>
         
         <div className="quick-actions-grid">
-          <div className="action-card" onClick={() => navigate("/faculty/courses")}>
+          <Link to="/faculty/courses" className="action-card">
             <div className="card-icon classes-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#4285f4"/>
@@ -37,10 +37,10 @@ const FacultyDashboard = () => {
             </div>
             <h3>Manage Classes</h3>
             <p>View your class schedule, student lists, and course materials</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/faculty/attendance")}>
+          <Link to="/faculty/attendance" className="action-card">
             <div className="card-icon attendance-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="#34c759"/>
@@ -48,10 +48,10 @@ const FacultyDashboard = () => {
             </div>
             <h3>Take Attendance</h3>
             <p>Record and manage student attendance for your classes</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/faculty/grades")}>
+          <Link to="/faculty/grades" className="action-card">
             <div className="card-icon grades-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-2V9h-2V7h4v10z" fill="#ff9500"/>
@@ -59,10 +59,10 @@ const FacultyDashboard = () => {
             </div>
             <h3>Grade Management</h3>
             <p>Enter and update grades, create assessments and view performance</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/faculty/assignments")}>
+          <Link to="/faculty/assignments" className="action-card">
             <div className="card-icon assignments-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" fill="#4285f4"/>
@@ -70,10 +70,10 @@ const FacultyDashboard = () => {
             </div>
             <h3>Assignments</h3>
             <p>Track submissions and grade assignments for your courses</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/faculty/announcements")}>
+          <Link to="/faculty/announcements" className="action-card">
             <div className="card-icon announcements-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M12 8V4l8 8-8 8v-4H4V8z" fill="#ff5252"/>
@@ -81,10 +81,10 @@ const FacultyDashboard = () => {
             </div>
             <h3>Post Announcements</h3>
             <p>Share important updates and information with your students</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
           
-          <div className="action-card" onClick={() => navigate("/faculty/resources")}>
+          <Link to="/faculty/resources" className="action-card">
             <div className="card-icon resources-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
                 <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z" fill="#4285f4"/>
@@ -92,8 +92,8 @@ const FacultyDashboard = () => {
             </div>
             <h3>Teaching Resources</h3>
             <p>Access teaching materials, templates and educational resources</p>
-            <button className="access-btn">Access</button>
-          </div>
+            <span className="access-btn">Access</span>
+          </Link>
         </div>
       </div>
 
