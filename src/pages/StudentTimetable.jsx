@@ -1,6 +1,29 @@
 import React, { useState } from "react";
 import "./StudentTimetable.css";
 
+const LocationIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M12 21C15.5 17.1 19 13.9 19 10A7 7 0 1 0 5 10c0 3.9 3.5 7.1 7 11Z"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    />
+    <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.8" />
+  </svg>
+);
+
+const UserIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.8" />
+    <path
+      d="M5 19c1.5-3 4-4.5 7-4.5s5.5 1.5 7 4.5"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 const StudentTimetable = () => {
   const [activeDay, setActiveDay] = useState("Monday");
   
@@ -66,8 +89,8 @@ const StudentTimetable = () => {
                       <div className="course-info">
                         <h4>{session.course}</h4>
                         <div className="course-details">
-                          <span><i className="fas fa-map-marker-alt"></i> {session.room}</span>
-                          <span><i className="fas fa-user"></i> {session.instructor}</span>
+                          <span><LocationIcon /> {session.room}</span>
+                          <span><UserIcon /> {session.instructor}</span>
                         </div>
                       </div>
                     </div>

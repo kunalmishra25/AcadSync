@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./StudentDashboard.css";
 import "./DashboardShared.css";
+import { getStudentDashboardStats } from "./studentData";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
+  const [stats, setStats] = useState({
+    attendance: "0%",
+    cgpa: "0.0",
+    pendingAssignments: 0,
+    upcomingTests: 0,
+  });
+
+  useEffect(() => {
+    setStats(getStudentDashboardStats());
+  }, []);
 
   return (
     <div className="student-dashboard">
@@ -104,22 +115,22 @@ const StudentDashboard = () => {
         <div className="stats-grid">
           <div className="stat-card">
             <h3>Attendance</h3>
-            <div className="stat-value">87%</div>
+            <div className="stat-value">{stats.attendance}</div>
             <p>Overall attendance across all courses</p>
           </div>
           <div className="stat-card">
             <h3>CGPA</h3>
-            <div className="stat-value">8.7</div>
+            <div className="stat-value">{stats.cgpa}</div>
             <p>Current semester grade (out of 10)</p>
           </div>
           <div className="stat-card">
             <h3>Assignments</h3>
-            <div className="stat-value">5</div>
+            <div className="stat-value">{stats.pendingAssignments}</div>
             <p>Pending assignments to complete</p>
           </div>
           <div className="stat-card">
             <h3>Upcoming Tests</h3>
-            <div className="stat-value">2</div>
+            <div className="stat-value">{stats.upcomingTests}</div>
             <p>Tests scheduled in the next 7 days</p>
           </div>
         </div>
