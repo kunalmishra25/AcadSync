@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ConfirmDialog from "../components/ConfirmDialog";
+import InlineMessage from "../components/InlineMessage";
 import "./SystemSettings.css";
 
 const SETTINGS_KEY = "cc_system_settings";
@@ -14,6 +16,8 @@ const defaultSettings = {
 
 const SystemSettings = () => {
   const [settings, setSettings] = useState(defaultSettings);
+  const [message, setMessage] = useState({ text: "", type: "success" });
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem(SETTINGS_KEY) || JSON.stringify(defaultSettings));
@@ -30,19 +34,30 @@ const SystemSettings = () => {
 
   const saveSettings = () => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-    alert("Settings saved successfully!");
+    setMessage({ text: "Settings saved successfully!", type: "success" });
   };
 
   const resetSettings = () => {
-    if (window.confirm("Are you sure you want to reset all settings to default values?")) {
-      setSettings(defaultSettings);
-      localStorage.setItem(SETTINGS_KEY, JSON.stringify(defaultSettings));
-      alert("Settings have been reset to default values.");
-    }
+    setShowResetConfirm(true);
+  };
+
+  const confirmResetSettings = () => {
+    setSettings(defaultSettings);
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(defaultSettings));
+    setShowResetConfirm(false);
+    setMessage({ text: "Settings have been reset to default values.", type: "success" });
   };
 
   return (
     <>
+      <ConfirmDialog
+        open={showResetConfirm}
+        title="Reset settings"
+        message="Are you sure you want to reset all settings to default values?"
+        confirmText="Reset"
+        onConfirm={confirmResetSettings}
+        onCancel={() => setShowResetConfirm(false)}
+      />
 
       {/* Page Header */}
       <section className="page-header">
@@ -55,6 +70,7 @@ const SystemSettings = () => {
       {/* Main Content */}
       <section className="main-content">
         <div className="container">
+          <InlineMessage message={message.text} type={message.type} onClose={() => setMessage({ text: "", type: "success" })} />
           <div className="actions-bar">
             <h3>System Configuration</h3>
             <Link to="/admin/dashboard" className="btn btn-outline">Back to Dashboard</Link>

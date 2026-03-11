@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import ConfirmDialog from "../components/ConfirmDialog";
+import InlineMessage from "../components/InlineMessage";
 
 import "./ManageStudents.css";
 
@@ -20,6 +22,8 @@ const ManageStudents = () => {
   const [stEmail, setStEmail] = useState("");
   const [stCourse, setStCourse] = useState("");
   const [stYear, setStYear] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "success" });
+  const [studentToDelete, setStudentToDelete] = useState(null);
 
   // Helpers to interact with localStorage (same keys as original)
   const getStudentsFromStorage = () => JSON.parse(localStorage.getItem(STUDENT_KEY) || "[]");
@@ -51,13 +55,13 @@ const ManageStudents = () => {
     const year = stYear.toString().trim();
 
     if (!id || !name || !email || !course || !year) {
-      alert("Please fill in all fields");
+      setMessage({ text: "Please fill in all fields", type: "error" });
       return;
     }
 
     const current = getStudentsFromStorage();
     if (current.some((s) => s.id.toLowerCase() === id.toLowerCase())) {
-      alert("Student ID already exists");
+      setMessage({ text: "Student ID already exists", type: "error" });
       return;
     }
 
@@ -72,16 +76,19 @@ const ManageStudents = () => {
     setStCourse("");
     setStYear("");
 
-    alert("Student added successfully!");
+    setMessage({ text: "Student added successfully!", type: "success" });
   };
 
   const deleteStudent = (id) => {
-    if (confirm("Are you sure you want to delete this student?")) {
-      const filtered = getStudentsFromStorage().filter((s) => s.id !== id);
-      setStudentsToStorage(filtered);
-      renderStudentsTable();
-      alert("Student deleted successfully!");
-    }
+    setStudentToDelete(id);
+  };
+
+  const confirmDeleteStudent = () => {
+    const filtered = getStudentsFromStorage().filter((s) => s.id !== studentToDelete);
+    setStudentsToStorage(filtered);
+    renderStudentsTable();
+    setStudentToDelete(null);
+    setMessage({ text: "Student deleted successfully!", type: "success" });
   };
 
   const clearAll = () => {
@@ -96,6 +103,14 @@ const ManageStudents = () => {
 
   return (
     <>
+      <ConfirmDialog
+        open={Boolean(studentToDelete)}
+        title="Delete student"
+        message="Are you sure you want to delete this student?"
+        confirmText="Delete"
+        onConfirm={confirmDeleteStudent}
+        onCancel={() => setStudentToDelete(null)}
+      />
       {/* Page Header */}
       <section className="page-header">
         <div className="container">
@@ -107,6 +122,7 @@ const ManageStudents = () => {
       {/* Main Content */}
       <section className="main-content">
         <div className="container">
+          <InlineMessage message={message.text} type={message.type} onClose={() => setMessage({ text: "", type: "success" })} />
           <div className="actions-bar">
             <h3>Student Records</h3>
             <div>

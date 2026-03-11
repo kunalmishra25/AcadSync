@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import ConfirmDialog from "../components/ConfirmDialog";
+import InlineMessage from "../components/InlineMessage";
 
 import "./ManageFaculty.css";
 
@@ -20,6 +22,8 @@ const ManageFaculty = () => {
   const [facEmail, setFacEmail] = useState("");
   const [facDept, setFacDept] = useState("");
   const [facDesignation, setFacDesignation] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "success" });
+  const [facultyToDelete, setFacultyToDelete] = useState(null);
 
   const getFacultyFromStorage = () => JSON.parse(localStorage.getItem(FACULTY_KEY) || "[]");
   const setFacultyToStorage = (list) => localStorage.setItem(FACULTY_KEY, JSON.stringify(list));
@@ -49,13 +53,13 @@ const ManageFaculty = () => {
     const designation = facDesignation.trim();
 
     if (!id || !name || !email || !department || !designation) {
-      alert("Please fill in all fields");
+      setMessage({ text: "Please fill in all fields", type: "error" });
       return;
     }
 
     const current = getFacultyFromStorage();
     if (current.some((f) => f.id.toLowerCase() === id.toLowerCase())) {
-      alert("Faculty ID already exists");
+      setMessage({ text: "Faculty ID already exists", type: "error" });
       return;
     }
 
@@ -69,16 +73,19 @@ const ManageFaculty = () => {
     setFacDept("");
     setFacDesignation("");
 
-    alert("Faculty added successfully!");
+    setMessage({ text: "Faculty added successfully!", type: "success" });
   };
 
   const deleteFaculty = (id) => {
-    if (confirm("Are you sure you want to delete this faculty member?")) {
-      const filtered = getFacultyFromStorage().filter((f) => f.id !== id);
-      setFacultyToStorage(filtered);
-      renderFacultyTable();
-      alert("Faculty deleted successfully!");
-    }
+    setFacultyToDelete(id);
+  };
+
+  const confirmDeleteFaculty = () => {
+    const filtered = getFacultyFromStorage().filter((f) => f.id !== facultyToDelete);
+    setFacultyToStorage(filtered);
+    renderFacultyTable();
+    setFacultyToDelete(null);
+    setMessage({ text: "Faculty deleted successfully!", type: "success" });
   };
 
   const clearAll = () => {
@@ -93,6 +100,14 @@ const ManageFaculty = () => {
 
   return (
     <>
+      <ConfirmDialog
+        open={Boolean(facultyToDelete)}
+        title="Delete faculty member"
+        message="Are you sure you want to delete this faculty member?"
+        confirmText="Delete"
+        onConfirm={confirmDeleteFaculty}
+        onCancel={() => setFacultyToDelete(null)}
+      />
 
       {/* Page Header */}
       <section className="page-header">
@@ -105,6 +120,7 @@ const ManageFaculty = () => {
       {/* Main Content */}
       <section className="main-content">
         <div className="container">
+          <InlineMessage message={message.text} type={message.type} onClose={() => setMessage({ text: "", type: "success" })} />
           <div className="actions-bar">
             <h3>Faculty Records</h3>
             <div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import InlineMessage from "../components/InlineMessage";
 import './FacultyAssignments.css';
 
 const subjects = {
@@ -28,6 +29,7 @@ const subjects = {
 function FacultyAssignments() {
   const [selectedSubject, setSelectedSubject] = useState('Data Structures');
   const [submissions, setSubmissions] = useState(subjects[selectedSubject]);
+  const [message, setMessage] = useState({ text: '', type: 'success' });
 
   const handleSubjectChange = (subject) => {
     setSelectedSubject(subject);
@@ -41,7 +43,7 @@ function FacultyAssignments() {
   };
 
   const saveMarks = () => {
-    alert('Marks saved successfully!');
+    setMessage({ text: 'Marks saved successfully!', type: 'success' });
   };
 
   const submitted = submissions.filter(s => s.status === 'submitted' || s.status === 'late').length;
@@ -55,6 +57,7 @@ function FacultyAssignments() {
       </div>
 
       <div className="assignments-content">
+        <InlineMessage message={message.text} type={message.type} onClose={() => setMessage({ text: "", type: "success" })} />
         <div className="subject-selector">
           <label>Select Subject:</label>
           <select 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InlineMessage from "../components/InlineMessage";
 import './FacultyAttendance.css';
 
 const ATTENDANCE_KEY = 'faculty_attendance';
@@ -57,6 +58,7 @@ function FacultyAttendance() {
   const [selectedSubject, setSelectedSubject] = useState('Data Structures');
   const [students, setStudents] = useState(subjectStudents[selectedSubject]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [message, setMessage] = useState({ text: '', type: 'success' });
 
   useEffect(() => {
     const saved = localStorage.getItem(`${ATTENDANCE_KEY}_${selectedSubject}_${selectedDate}`);
@@ -80,7 +82,7 @@ function FacultyAttendance() {
 
   const saveAttendance = () => {
     localStorage.setItem(`${ATTENDANCE_KEY}_${selectedSubject}_${selectedDate}`, JSON.stringify(students));
-    alert('Attendance saved successfully!');
+    setMessage({ text: 'Attendance saved successfully!', type: 'success' });
   };
 
   return (
@@ -91,6 +93,7 @@ function FacultyAttendance() {
       </div>
 
       <div className="attendance-content">
+        <InlineMessage message={message.text} type={message.type} onClose={() => setMessage({ text: "", type: "success" })} />
         <div className="class-selector">
           <div className="subject-selector">
             <label>Subject: </label>

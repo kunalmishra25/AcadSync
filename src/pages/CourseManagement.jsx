@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ConfirmDialog from "../components/ConfirmDialog";
+import InlineMessage from "../components/InlineMessage";
 import "./CourseManagement.css";
 
 const COURSE_STORAGE_KEY = "cc_courses";
@@ -26,6 +28,8 @@ const CourseManagement = () => {
     credits: "",
     instructor: ""
   });
+  const [message, setMessage] = useState({ text: "", type: "success" });
+  const [courseToDelete, setCourseToDelete] = useState(null);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem(COURSE_STORAGE_KEY) || "[]");
@@ -44,27 +48,30 @@ const CourseManagement = () => {
   const addCourse = () => {
     const { id, name, department, credits, instructor } = form;
     if (!id || !name || !department || !credits || !instructor) {
-      alert("Please fill all fields");
+      setMessage({ text: "Please fill all fields", type: "error" });
       return;
     }
     if (courses.some(c => c.id.toLowerCase() === id.toLowerCase())) {
-      alert("Course ID already exists");
+      setMessage({ text: "Course ID already exists", type: "error" });
       return;
     }
     const newCourses = [...courses, { id, name, department, credits, instructor }];
     setCourses(newCourses);
     localStorage.setItem(COURSE_STORAGE_KEY, JSON.stringify(newCourses));
     setForm({ id: "", name: "", department: "", credits: "", instructor: "" });
-    alert("Course added successfully");
+    setMessage({ text: "Course added successfully", type: "success" });
   };
 
   const deleteCourse = (id) => {
-    if (window.confirm("Are you sure you want to delete this course?")) {
-      const filtered = courses.filter(c => c.id !== id);
-      setCourses(filtered);
-      localStorage.setItem(COURSE_STORAGE_KEY, JSON.stringify(filtered));
-      alert("Course deleted successfully");
-    }
+    setCourseToDelete(id);
+  };
+
+  const confirmDeleteCourse = () => {
+    const filtered = courses.filter(c => c.id !== courseToDelete);
+    setCourses(filtered);
+    localStorage.setItem(COURSE_STORAGE_KEY, JSON.stringify(filtered));
+    setCourseToDelete(null);
+    setMessage({ text: "Course deleted successfully", type: "success" });
   };
 
   const clearAll = () => {
@@ -79,6 +86,14 @@ const CourseManagement = () => {
 
   return (
     <>
+      <ConfirmDialog
+        open={Boolean(courseToDelete)}
+        title="Delete course"
+        message="Are you sure you want to delete this course?"
+        confirmText="Delete"
+        onConfirm={confirmDeleteCourse}
+        onCancel={() => setCourseToDelete(null)}
+      />
 
       {/* Page Header */}
       <section className="page-header">
@@ -91,6 +106,7 @@ const CourseManagement = () => {
       {/* Main Content */}
       <section className="main-content">
         <div className="container">
+          <InlineMessage message={message.text} type={message.type} onClose={() => setMessage({ text: "", type: "success" })} />
           <div className="actions-bar">
             <h3>Manage Courses</h3>
             <Link to="/admin/dashboard" className="btn btn-outline">Back to Dashboard</Link>
