@@ -1,40 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import "./StudentAnnouncement.css";
 
 const StudentAnnouncement = () => {
-  const [announcements, setAnnouncements] = useState(() => {
-    const savedAnnouncements = localStorage.getItem('announcements');
+  const [announcements] = useState(() => {
+    const savedAnnouncements = localStorage.getItem("announcements");
     if (savedAnnouncements) {
       return JSON.parse(savedAnnouncements);
-    } else {
-      return [
-        {
-          id: 1,
-          title: "End of Semester Examination Schedule",
-          content: "The end of semester examinations will begin on June 15th. Please check the examination portal for your individual schedule.",
-          target: "All Students",
-          date: "2023-05-20",
-          status: "Active"
-        },
-        {
-          id: 2,
-          title: "Faculty Development Program",
-          content: "A three-day faculty development program on 'Modern Teaching Methodologies' will be conducted from June 5th to 7th.",
-          target: "Faculty",
-          date: "2023-05-18",
-          status: "Active"
-        }
-      ];
     }
+
+    return [
+      {
+        id: 1,
+        title: "End of Semester Examination Schedule",
+        content: "The end of semester examinations will begin on June 15th. Please check the examination portal for your individual schedule.",
+        target: "All Students",
+        date: "2023-05-20",
+        status: "Active",
+      },
+      {
+        id: 2,
+        title: "Faculty Development Program",
+        content: "A three-day faculty development program on 'Modern Teaching Methodologies' will be conducted from June 5th to 7th.",
+        target: "Faculty",
+        date: "2023-05-18",
+        status: "Active",
+      },
+    ];
   });
 
-  // Filter announcements for students only
-  const studentAnnouncements = announcements.filter(
-    announcement => announcement.target === "All Students" || 
-                   announcement.target === "First Year" || 
-                   announcement.target === "Second Year" || 
-                   announcement.target === "Third Year" || 
-                   announcement.target === "Final Year"
+  const formatAnnouncementDate = (date) =>
+    new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
+  const studentAnnouncements = useMemo(
+    () =>
+      announcements
+        .filter(
+          (announcement) =>
+            announcement.target === "All Students" ||
+            announcement.target === "First Year" ||
+            announcement.target === "Second Year" ||
+            announcement.target === "Third Year" ||
+            announcement.target === "Final Year"
+        )
+        .sort((a, b) => new Date(b.date) - new Date(a.date)),
+    [announcements]
   );
 
   return (
@@ -52,7 +65,7 @@ const StudentAnnouncement = () => {
 
           <div className="announcements-list">
             {studentAnnouncements.length > 0 ? (
-              studentAnnouncements.map(announcement => (
+              studentAnnouncements.map((announcement) => (
                 <div className="announcement-card" key={announcement.id}>
                   <div className="announcement-header">
                     <h4>{announcement.title}</h4>
@@ -62,7 +75,9 @@ const StudentAnnouncement = () => {
                     <p>{announcement.content}</p>
                   </div>
                   <div className="announcement-footer">
-                    <span className="announcement-date">Posted on: {announcement.date}</span>
+                    <span className="announcement-date">
+                      Posted on: {formatAnnouncementDate(announcement.date)}
+                    </span>
                   </div>
                 </div>
               ))
