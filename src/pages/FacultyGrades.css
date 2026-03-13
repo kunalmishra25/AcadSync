@@ -113,6 +113,16 @@
   background-color: #3367d6;
 }
 
+.subject-dropdown {
+  min-width: 220px;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d7e1ef;
+  border-radius: 8px;
+  background: white;
+  color: #1a2a3a;
+  font-weight: 500;
+}
+
 .grades-table {
   overflow-x: auto;
 }

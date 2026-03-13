@@ -1,52 +1,28 @@
 import React, { useState } from "react";
 import "./FacultyGrades.css";
+import { facultyGradeSeedBySubject, getFacultySubjects } from "./facultyData";
 
 const FacultyGrades = () => {
+  const subjects = getFacultySubjects();
+  const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
   const [editingRow, setEditingRow] = useState(null);
   const [editData, setEditData] = useState({});
-  // Sample grades data
-  const [gradesData, setGradesData] = useState([
-    { 
-      student: "Arjun Sharma", 
-      rollId: "CS2021001",
-      course: "Data Structures",
-      assignments: 85, 
-      midterm: 78, 
-      final: 88, 
-      total: 84, 
-      grade: "A-" 
-    },
-    { 
-      student: "Priya Patel", 
-      rollId: "CS2021002",
-      course: "Data Structures",
-      assignments: 92, 
-      midterm: 85, 
-      final: 90, 
-      total: 89, 
-      grade: "A" 
-    },
-    { 
-      student: "Rohit Kumar", 
-      rollId: "CS2021003",
-      course: "Data Structures",
-      assignments: 88, 
-      midterm: 75, 
-      final: 82, 
-      total: 82, 
-      grade: "B+" 
-    },
-    { 
-      student: "Ananya Singh", 
-      rollId: "CS2021004",
-      course: "Data Structures",
-      assignments: 79, 
-      midterm: 72, 
-      final: 80, 
-      total: 77, 
-      grade: "B" 
-    }
-  ]);
+  const [gradesBySubject, setGradesBySubject] = useState(facultyGradeSeedBySubject);
+
+  const gradesData = gradesBySubject[selectedSubject] || [];
+  const averageTotal = gradesData.length
+    ? Math.round(gradesData.reduce((sum, student) => sum + student.total, 0) / gradesData.length)
+    : 0;
+  const averageGrade = averageTotal >= 90 ? 'O' : averageTotal >= 80 ? 'A+' : averageTotal >= 70 ? 'A' : 'B+';
+  const pendingGrades = gradesData.filter(
+    (student) => student.assignments === null || student.midterm === null || student.final === null
+  ).length;
+
+  const handleSubjectChange = (subject) => {
+    setSelectedSubject(subject);
+    setEditingRow(null);
+    setEditData({});
+  };
 
   const handleEdit = (index) => {
     setEditingRow(index);
@@ -54,16 +30,18 @@ const FacultyGrades = () => {
   };
 
   const handleSave = (index) => {
-    const newGradesData = [...gradesData];
     const total = Math.round((editData.assignments + editData.midterm + editData.final) / 3);
     let grade = 'B+';
     if (total >= 90) grade = 'O';
     else if (total >= 80) grade = 'A+';
     else if (total >= 70) grade = 'A';
-    else grade = 'B+';
-    
-    newGradesData[index] = { ...editData, total, grade };
-    setGradesData(newGradesData);
+
+    setGradesBySubject((prev) => ({
+      ...prev,
+      [selectedSubject]: prev[selectedSubject].map((student, studentIndex) =>
+        studentIndex === index ? { ...editData, total, grade } : student
+      ),
+    }));
     setEditingRow(null);
   };
 
@@ -73,7 +51,7 @@ const FacultyGrades = () => {
   };
 
   const handleInputChange = (field, value) => {
-    setEditData({ ...editData, [field]: parseInt(value) || 0 });
+    setEditData({ ...editData, [field]: parseInt(value, 10) || 0 });
   };
 
   return (
@@ -88,24 +66,32 @@ const FacultyGrades = () => {
           <div className="grades-summary">
             <div className="summary-card">
               <h3>Total Students</h3>
-              <div className="grades-value">160</div>
-              <div className="grades-detail">Across All Courses</div>
+              <div className="grades-value">{gradesData.length}</div>
+              <div className="grades-detail">For {selectedSubject}</div>
             </div>
             <div className="summary-card">
               <h3>Average Grade</h3>
-              <div className="grades-grade">B+</div>
-              <div className="grades-detail">Class Performance</div>
+              <div className="grades-grade">{averageGrade}</div>
+              <div className="grades-detail">Current subject performance</div>
             </div>
             <div className="summary-card">
               <h3>Pending Grades</h3>
-              <div className="grades-percentage">12</div>
-              <div className="grades-detail">Assignments to Grade</div>
+              <div className="grades-percentage">{pendingGrades}</div>
+              <div className="grades-detail">Assessments to complete</div>
             </div>
           </div>
 
           <div className="actions-bar">
-            <h3>Student Grades - Data Structures</h3>
-            <button className="add-grade-btn">Add New Grade</button>
+            <h3>Student Grades - {selectedSubject}</h3>
+            <select
+              className="subject-dropdown"
+              value={selectedSubject}
+              onChange={(e) => handleSubjectChange(e.target.value)}
+            >
+              {subjects.map((subject) => (
+                <option key={subject} value={subject}>{subject}</option>
+              ))}
+            </select>
           </div>
 
           <div className="grades-table">
@@ -124,14 +110,14 @@ const FacultyGrades = () => {
               </thead>
               <tbody>
                 {gradesData.map((student, index) => (
-                  <tr key={index}>
+                  <tr key={`${selectedSubject}-${student.rollId}`}>
                     <td>{student.student}</td>
                     <td>{student.rollId}</td>
                     <td>
                       {editingRow === index ? (
-                        <input 
-                          type="number" 
-                          value={editData.assignments} 
+                        <input
+                          type="number"
+                          value={editData.assignments}
                           onChange={(e) => handleInputChange('assignments', e.target.value)}
                           className="edit-input"
                         />
@@ -141,9 +127,9 @@ const FacultyGrades = () => {
                     </td>
                     <td>
                       {editingRow === index ? (
-                        <input 
-                          type="number" 
-                          value={editData.midterm} 
+                        <input
+                          type="number"
+                          value={editData.midterm}
                           onChange={(e) => handleInputChange('midterm', e.target.value)}
                           className="edit-input"
                         />
@@ -153,9 +139,9 @@ const FacultyGrades = () => {
                     </td>
                     <td>
                       {editingRow === index ? (
-                        <input 
-                          type="number" 
-                          value={editData.final} 
+                        <input
+                          type="number"
+                          value={editData.final}
                           onChange={(e) => handleInputChange('final', e.target.value)}
                           className="edit-input"
                         />
@@ -166,8 +152,8 @@ const FacultyGrades = () => {
                     <td>{student.total}</td>
                     <td>
                       <span className={`grade-badge ${
-                        student.grade.startsWith('A') ? 'excellent' : 
-                        student.grade.startsWith('B') ? 'good' : 
+                        student.grade.startsWith('A') ? 'excellent' :
+                        student.grade.startsWith('B') ? 'good' :
                         student.grade.startsWith('C') ? 'average' : 'poor'
                       }`}>
                         {student.grade}

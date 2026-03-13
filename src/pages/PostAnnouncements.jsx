@@ -49,7 +49,7 @@ const PostAnnouncements = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const announcement = {
-      id: announcements.length + 1,
+      id: Date.now(),
       ...newAnnouncement,
       date: new Date().toISOString().split('T')[0],
       status: "Active"

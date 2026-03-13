@@ -1,62 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import InlineMessage from "../components/InlineMessage";
 import './FacultyAttendance.css';
+import {
+  getDefaultAttendanceStudents,
+  getFacultySubjects,
+} from "./facultyData";
 
 const ATTENDANCE_KEY = 'faculty_attendance';
 
-const subjectStudents = {
-  'Data Structures': [
-    { id: 'S101', name: 'Aarav Sharma', status: 'present', notes: '' },
-    { id: 'S102', name: 'Priya Patel', status: 'present', notes: '' },
-    { id: 'S103', name: 'Arjun Singh', status: 'present', notes: '' },
-    { id: 'S104', name: 'Kavya Reddy', status: 'present', notes: '' },
-    { id: 'S105', name: 'Rohan Gupta', status: 'present', notes: '' },
-    { id: 'S106', name: 'Ananya Joshi', status: 'present', notes: '' },
-    { id: 'S107', name: 'Vikram Kumar', status: 'present', notes: '' },
-    { id: 'S108', name: 'Ishita Agarwal', status: 'present', notes: '' },
-    { id: 'S109', name: 'Karan Mehta', status: 'present', notes: '' },
-    { id: 'S110', name: 'Sneha Verma', status: 'present', notes: '' },
-    { id: 'S111', name: 'Rahul Nair', status: 'present', notes: '' },
-    { id: 'S112', name: 'Pooja Iyer', status: 'present', notes: '' },
-    { id: 'S113', name: 'Aditya Rao', status: 'present', notes: '' },
-    { id: 'S114', name: 'Neha Sinha', status: 'present', notes: '' },
-    { id: 'S115', name: 'Siddharth Jain', status: 'present', notes: '' }
-  ],
-  'Database Systems': [
-    { id: 'S101', name: 'Aarav Sharma', status: 'present', notes: '' },
-    { id: 'S102', name: 'Priya Patel', status: 'present', notes: '' },
-    { id: 'S103', name: 'Arjun Singh', status: 'present', notes: '' },
-    { id: 'S104', name: 'Kavya Reddy', status: 'present', notes: '' },
-    { id: 'S105', name: 'Rohan Gupta', status: 'present', notes: '' },
-    { id: 'S106', name: 'Ananya Joshi', status: 'present', notes: '' },
-    { id: 'S107', name: 'Vikram Kumar', status: 'present', notes: '' },
-    { id: 'S108', name: 'Ishita Agarwal', status: 'present', notes: '' },
-    { id: 'S109', name: 'Karan Mehta', status: 'present', notes: '' },
-    { id: 'S110', name: 'Sneha Verma', status: 'present', notes: '' },
-    { id: 'S111', name: 'Rahul Nair', status: 'present', notes: '' },
-    { id: 'S112', name: 'Pooja Iyer', status: 'present', notes: '' }
-  ],
-  'Web Development': [
-    { id: 'S101', name: 'Aarav Sharma', status: 'present', notes: '' },
-    { id: 'S102', name: 'Priya Patel', status: 'present', notes: '' },
-    { id: 'S103', name: 'Arjun Singh', status: 'present', notes: '' },
-    { id: 'S104', name: 'Kavya Reddy', status: 'present', notes: '' },
-    { id: 'S105', name: 'Rohan Gupta', status: 'present', notes: '' },
-    { id: 'S106', name: 'Ananya Joshi', status: 'present', notes: '' },
-    { id: 'S107', name: 'Vikram Kumar', status: 'present', notes: '' },
-    { id: 'S108', name: 'Ishita Agarwal', status: 'present', notes: '' },
-    { id: 'S109', name: 'Karan Mehta', status: 'present', notes: '' },
-    { id: 'S110', name: 'Sneha Verma', status: 'present', notes: '' },
-    { id: 'S111', name: 'Rahul Nair', status: 'present', notes: '' },
-    { id: 'S112', name: 'Pooja Iyer', status: 'present', notes: '' },
-    { id: 'S113', name: 'Aditya Rao', status: 'present', notes: '' },
-    { id: 'S114', name: 'Neha Sinha', status: 'present', notes: '' }
-  ]
-};
-
 function FacultyAttendance() {
+  const subjects = getFacultySubjects();
   const [selectedSubject, setSelectedSubject] = useState('Data Structures');
-  const [students, setStudents] = useState(subjectStudents[selectedSubject]);
+  const [students, setStudents] = useState(getDefaultAttendanceStudents('Data Structures'));
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [message, setMessage] = useState({ text: '', type: 'success' });
 
@@ -65,19 +20,21 @@ function FacultyAttendance() {
     if (saved) {
       setStudents(JSON.parse(saved));
     } else {
-      setStudents(subjectStudents[selectedSubject]);
+      setStudents(getDefaultAttendanceStudents(selectedSubject));
     }
   }, [selectedDate, selectedSubject]);
 
   const handleSubjectChange = (subject) => {
     setSelectedSubject(subject);
-    setStudents(subjectStudents[subject]);
+    setStudents(getDefaultAttendanceStudents(subject));
   };
 
   const updateStudent = (id, field, value) => {
-    setStudents(prev => prev.map(student => 
-      student.id === id ? { ...student, [field]: value } : student
-    ));
+    setStudents((prev) =>
+      prev.map((student) =>
+        student.id === id ? { ...student, [field]: value } : student
+      )
+    );
   };
 
   const saveAttendance = () => {
@@ -93,26 +50,30 @@ function FacultyAttendance() {
       </div>
 
       <div className="attendance-content">
-        <InlineMessage message={message.text} type={message.type} onClose={() => setMessage({ text: "", type: "success" })} />
+        <InlineMessage
+          message={message.text}
+          type={message.type}
+          onClose={() => setMessage({ text: '', type: 'success' })}
+        />
         <div className="class-selector">
           <div className="subject-selector">
             <label>Subject: </label>
-            <select 
-              value={selectedSubject} 
+            <select
+              value={selectedSubject}
               onChange={(e) => handleSubjectChange(e.target.value)}
             >
-              {Object.keys(subjectStudents).map(subject => (
+              {subjects.map((subject) => (
                 <option key={subject} value={subject}>{subject}</option>
               ))}
             </select>
           </div>
           <div className="date-selector">
             <label>Date: </label>
-            <input 
-              type="date" 
+            <input
+              type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="date-picker" 
+              className="date-picker"
             />
           </div>
         </div>
@@ -128,12 +89,12 @@ function FacultyAttendance() {
               </tr>
             </thead>
             <tbody>
-              {students.map(student => (
+              {students.map((student) => (
                 <tr key={student.id}>
                   <td>{student.id}</td>
                   <td>{student.name}</td>
                   <td>
-                    <select 
+                    <select
                       className="status-dropdown"
                       value={student.status}
                       onChange={(e) => updateStudent(student.id, 'status', e.target.value)}
@@ -145,8 +106,8 @@ function FacultyAttendance() {
                     </select>
                   </td>
                   <td>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="Add notes"
                       value={student.notes}
                       onChange={(e) => updateStudent(student.id, 'notes', e.target.value)}
@@ -156,15 +117,13 @@ function FacultyAttendance() {
               ))}
             </tbody>
           </table>
-          
+
           <div className="table-footer">
             <button className="btn btn-primary" onClick={saveAttendance}>
               Save All Changes
             </button>
           </div>
         </div>
-        
-
       </div>
     </div>
   );

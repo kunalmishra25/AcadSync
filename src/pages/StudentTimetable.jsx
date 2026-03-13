@@ -83,8 +83,8 @@ const StudentTimetable = () => {
               
               {timetableData[activeDay].length > 0 ? (
                 <div className="schedule-cards">
-                  {timetableData[activeDay].map((session, index) => (
-                    <div className="schedule-card" key={index}>
+                  {timetableData[activeDay].map((session) => (
+                    <div className="schedule-card" key={`${activeDay}-${session.time}-${session.course}`}>
                       <div className="time-slot">{session.time}</div>
                       <div className="course-info">
                         <h4>{session.course}</h4>

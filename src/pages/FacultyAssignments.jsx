@@ -1,53 +1,67 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InlineMessage from "../components/InlineMessage";
 import './FacultyAssignments.css';
-
-const subjects = {
-  'Data Structures': [
-    { id: 'S101', name: 'Aarav Sharma', status: 'submitted', marks: 85 },
-    { id: 'S102', name: 'Priya Patel', status: 'submitted', marks: 92 },
-    { id: 'S103', name: 'Arjun Singh', status: 'pending', marks: null },
-    { id: 'S104', name: 'Kavya Reddy', status: 'submitted', marks: 78 },
-    { id: 'S105', name: 'Rohan Gupta', status: 'pending', marks: null }
-  ],
-  'Database Systems': [
-    { id: 'S101', name: 'Aarav Sharma', status: 'submitted', marks: 88 },
-    { id: 'S102', name: 'Priya Patel', status: 'pending', marks: null },
-    { id: 'S103', name: 'Arjun Singh', status: 'submitted', marks: 75 },
-    { id: 'S104', name: 'Kavya Reddy', status: 'late', marks: 70 },
-    { id: 'S105', name: 'Rohan Gupta', status: 'submitted', marks: 82 }
-  ],
-  'Web Development': [
-    { id: 'S101', name: 'Aarav Sharma', status: 'pending', marks: null },
-    { id: 'S102', name: 'Priya Patel', status: 'submitted', marks: 95 },
-    { id: 'S103', name: 'Arjun Singh', status: 'submitted', marks: 89 },
-    { id: 'S104', name: 'Kavya Reddy', status: 'submitted', marks: 91 },
-    { id: 'S105', name: 'Rohan Gupta', status: 'late', marks: 65 }
-  ]
-};
+import {
+  getFacultySubjects,
+  loadAssignmentStudents,
+  saveAssignmentStudents,
+} from "./facultyData";
 
 function FacultyAssignments() {
+  const subjects = getFacultySubjects();
   const [selectedSubject, setSelectedSubject] = useState('Data Structures');
-  const [submissions, setSubmissions] = useState(subjects[selectedSubject]);
+  const [submissions, setSubmissions] = useState(() => loadAssignmentStudents('Data Structures'));
   const [message, setMessage] = useState({ text: '', type: 'success' });
+
+  useEffect(() => {
+    setSubmissions(loadAssignmentStudents(selectedSubject));
+  }, [selectedSubject]);
 
   const handleSubjectChange = (subject) => {
     setSelectedSubject(subject);
-    setSubmissions(subjects[subject]);
   };
 
   const updateMarks = (studentId, marks) => {
-    setSubmissions(prev => prev.map(student => 
-      student.id === studentId ? { ...student, marks: parseInt(marks) } : student
-    ));
+    if (marks === '') {
+      setSubmissions((prev) =>
+        prev.map((student) =>
+          student.id === studentId ? { ...student, marks: null } : student
+        )
+      );
+      return;
+    }
+
+    const parsedMarks = Number(marks);
+    if (!Number.isInteger(parsedMarks) || parsedMarks < 0 || parsedMarks > 100) {
+      setMessage({ text: 'Marks must be between 0 and 100.', type: 'error' });
+      return;
+    }
+
+    setSubmissions((prev) =>
+      prev.map((student) =>
+        student.id === studentId ? { ...student, marks: parsedMarks } : student
+      )
+    );
   };
 
   const saveMarks = () => {
+    const invalidStudent = submissions.find(
+      (student) =>
+        student.status !== 'pending' &&
+        (student.marks === null || student.marks < 0 || student.marks > 100)
+    );
+
+    if (invalidStudent) {
+      setMessage({ text: `Enter valid marks for ${invalidStudent.name}.`, type: 'error' });
+      return;
+    }
+
+    saveAssignmentStudents(selectedSubject, submissions);
     setMessage({ text: 'Marks saved successfully!', type: 'success' });
   };
 
-  const submitted = submissions.filter(s => s.status === 'submitted' || s.status === 'late').length;
-  const pending = submissions.filter(s => s.status === 'pending').length;
+  const submitted = submissions.filter((s) => s.status === 'submitted' || s.status === 'late').length;
+  const pending = submissions.filter((s) => s.status === 'pending').length;
 
   return (
     <div className="faculty-assignments">
@@ -57,14 +71,18 @@ function FacultyAssignments() {
       </div>
 
       <div className="assignments-content">
-        <InlineMessage message={message.text} type={message.type} onClose={() => setMessage({ text: "", type: "success" })} />
+        <InlineMessage
+          message={message.text}
+          type={message.type}
+          onClose={() => setMessage({ text: '', type: 'success' })}
+        />
         <div className="subject-selector">
           <label>Select Subject:</label>
-          <select 
-            value={selectedSubject} 
+          <select
+            value={selectedSubject}
             onChange={(e) => handleSubjectChange(e.target.value)}
           >
-            {Object.keys(subjects).map(subject => (
+            {subjects.map((subject) => (
               <option key={subject} value={subject}>{subject}</option>
             ))}
           </select>
@@ -89,7 +107,7 @@ function FacultyAssignments() {
             </tr>
           </thead>
           <tbody>
-            {submissions.map(student => (
+            {submissions.map((student) => (
               <tr key={student.id}>
                 <td>{student.id}</td>
                 <td>{student.name}</td>
@@ -104,7 +122,7 @@ function FacultyAssignments() {
                       type="number"
                       min="0"
                       max="100"
-                      value={student.marks || ''}
+                      value={student.marks ?? ''}
                       onChange={(e) => updateMarks(student.id, e.target.value)}
                     />
                   ) : (
@@ -115,7 +133,7 @@ function FacultyAssignments() {
             ))}
           </tbody>
         </table>
-        
+
         <button className="save-btn" onClick={saveMarks}>
           Save Marks
         </button>

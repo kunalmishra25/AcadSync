@@ -85,8 +85,8 @@ const StudentCourses = () => {
           </div>
 
           <div className="courses-grid">
-            {coursesData.map((course, index) => (
-              <div className="course-card" key={index}>
+            {coursesData.map((course) => (
+              <div className="course-card" key={course.id}>
                 <div className="course-header">
                   <h4>{course.title}</h4>
                   <span className="course-id">{course.id}</span>

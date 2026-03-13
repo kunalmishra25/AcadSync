@@ -90,8 +90,8 @@ const StudentMarks = () => {
                 </tr>
               </thead>
               <tbody>
-                {marksData.map((course, index) => (
-                  <tr key={index}>
+                {marksData.map((course) => (
+                  <tr key={course.course}>
                     <td>{course.course}</td>
                     <td>{course.assignments}</td>
                     <td>{course.midterm}</td>

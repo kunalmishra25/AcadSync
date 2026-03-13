@@ -54,8 +54,8 @@ const StudentAttendance = () => {
                 </tr>
               </thead>
               <tbody>
-                {attendanceData.map((course, index) => (
-                  <tr key={index}>
+                {attendanceData.map((course) => (
+                  <tr key={course.course}>
                     <td>{course.course}</td>
                     <td>{course.present}</td>
                     <td>{course.absent}</td>

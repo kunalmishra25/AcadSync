@@ -92,8 +92,8 @@ const StudentFees = () => {
                 </tr>
               </thead>
               <tbody>
-                {feesData.map((fee, index) => (
-                  <tr key={index}>
+                {feesData.map((fee) => (
+                  <tr key={fee.id}>
                     <td>{fee.id}</td>
                     <td>{fee.description}</td>
                     <td>₹{fee.amount.toLocaleString('en-IN')}</td>
