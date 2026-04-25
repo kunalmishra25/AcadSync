@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment Management - CloudCampus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+      font-size: 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #1a2a3a;
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    header .logo img {
+      height: 40px;
+    }
+    header .logo h1 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, #ffffff, #e0e0e0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    nav a:hover, nav a.active {
+      color: #4285f4;
+    }
+    main {
+      flex: 1;
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      padding: 2rem;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+      color: #1a2a3a;
+    }
+    .create-assignment {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      align-items: center;
+    }
+    .create-assignment input[type="text"],
+    .create-assignment input[type="date"],
+    .create-assignment select {
+      padding: 10px;
+      border: 1px solid #e6e8eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      flex: 1 1 180px;
+    }
+    .create-assignment button {
+      padding: 10px 20px;
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      flex: 0 0 auto;
+    }
+    .create-assignment button:hover {
+      background-color: #2a5db0;
+    }
+    .search-filter {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .search-filter input[type="text"],
+    .search-filter select {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      flex: 1 1 200px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #eef1f6;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 14px;
+      vertical-align: middle;
+      user-select: none;
+    }
+    th {
+      background: #f3f6fb;
+      color: #334;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+    }
+    th.sort-asc::after {
+      content: "▲";
+      position: absolute;
+      right: 8px;
+      font-size: 0.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4285f4;
+    }
+    th.sort-desc::after {
+      content: "▼";
+      position: absolute;
+      right: 8px;
+      font-size: 0.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4285f4;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #eef5ff;
+      color: #2b6cb0;
+      font-weight: 600;
+    }
+    button.action-btn {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+      margin-right: 5px;
+    }
+    button.view-btn {
+      background-color: #34c759;
+      color: white;
+    }
+    button.view-btn:hover {
+      background-color: #2a9e4a;
+    }
+    button.grade-btn {
+      background-color: #ff9500;
+      color: white;
+    }
+    button.grade-btn:hover {
+      background-color: #cc7a00;
+    }
+    button.details-btn {
+      background-color: #4285f4;
+      color: white;
+    }
+    button.details-btn:hover {
+      background-color: #2a5db0;
+    }
+    button.delete-btn {
+      background-color: #d32f2f;
+      color: white;
+    }
+    button.delete-btn:hover {
+      background-color: #a52727;
+    }
+    input.editable {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: #888;
+      opacity: 0.7;
+    }
+    .pagination {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pagination button {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .pagination button.active {
+      background-color: #4285f4;
+      color: white;
+      border-color: #4285f4;
+    }
+    .pagination button:hover:not(.active) {
+      background-color: #e0e7ff;
+    }
+    .bulk-actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .bulk-actions button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      background-color: #4285f4;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    .bulk-actions button:hover {
+      background-color: #2a5db0;
+    }
+    .bulk-actions button.delete-btn {
+      background-color: #d32f2f;
+    }
+    .bulk-actions button.delete-btn:hover {
+      background-color: #a52727;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .create-assignment, .search-filter, .bulk-actions {
+        flex-direction: column;
+      }
+      .create-assignment input,
+      .create-assignment button,
+      .search-filter input,
+      .search-filter select,
+      .bulk-actions button {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/graduation-cap.png" alt="Logo" />
+      <h1>CloudCampus</h1>
+    </div>
+    <nav>
+      <a href="FacultyHome.html">Dashboard</a>
+      <a href="assignments.html" class="active">Assignments</a>
+      <a href="attendance.html">Attendance</a>
+      <a href="RoleLogin.html">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Assignment Management</h2>
+
+    <div class="create-assignment">
+      <input type="text" id="assignmentTitle" placeholder="Assignment title..." aria-label="Assignment title" />
+      <select id="assignmentCourse" aria-label="Select course">
+        <option value="" disabled selected>Select course</option>
+        <option value="CSE101">CSE101</option>
+        <option value="CSE201">CSE201</option>
+        <option value="CSE301">CSE301</option>
+      </select>
+      <input type="date" id="assignmentDueDate" aria-label="Due date" />
+      <button id="btnCreateAssignment">Add Assignment</button>
+    </div>
+
+    <div class="search-filter">
+      <input type="text" id="searchInput" placeholder="Search by title or course..." aria-label="Search assignments" />
+      <select id="filterCourse" aria-label="Filter by course">
+        <option value="">All Courses</option>
+        <option value="CSE101">CSE101</option>
+        <option value="CSE201">CSE201</option>
+        <option value="CSE301">CSE301</option>
+      </select>
+    </div>
+
+    <div class="bulk-actions">
+      <button id="btnDeleteSelected" class="delete-btn" disabled>Delete Selected</button>
+      <button id="btnClearAll" class="delete-btn">Clear All Assignments</button>
+      <button id="btnExportCSV">Export CSV</button>
+      <input type="file" id="importCSV" accept=".csv" style="display:none" />
+      <button id="btnImportCSV">Import CSV</button>
+    </div>
+
+    <table aria-describedby="assignmentsTableDesc" id="assignmentsTable">
+      <caption id="assignmentsTableDesc" style="text-align:left; margin-bottom: 0.5rem;">List of assignments</caption>
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="selectAll" aria-label="Select all assignments" /></th>
+          <th data-sort="title" tabindex="0" role="button" aria-label="Sort by Assignment Title">Assignment</th>
+          <th data-sort="course" tabindex="0" role="button" aria-label="Sort by Course">Course</th>
+          <th data-sort="dueDate" tabindex="0" role="button" aria-label="Sort by Due Date">Due Date</th>
+          <th>Submissions</th>
+          <th>Completed</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="assignmentsTbody">
+        <!-- Assignments will be dynamically inserted here -->
+      </tbody>
+    </table>
+
+    <div class="pagination" id="pagination"></div>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'cc_assignments';
+    const PAGE_SIZE = 5;
+
+    let assignments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+      { id: 1, title: "Programming Project 1", course: "CSE101", dueDate: "2025-02-20", submissions: "18/25", completed: false },
+      { id: 2, title: "Data Structure Quiz", course: "CSE201", dueDate: "2025-02-18", submissions: "25/28", completed: false },
+      { id: 3, title: "Final Project", course: "CSE301", dueDate: "2025-03-15", submissions: "5/20", completed: false }
+    ];
+
+    const tbody = document.getElementById('assignmentsTbody');
+    const btnCreate = document.getElementById('btnCreateAssignment');
+    const inputTitle = document.getElementById('assignmentTitle');
+    const inputDueDate = document.getElementById('assignmentDueDate');
+    const selectCourse = document.getElementById('assignmentCourse');
+    const searchInput = document.getElementById('searchInput');
+    const filterCourse = document.getElementById('filterCourse');
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const btnDeleteSelected = document.getElementById('btnDeleteSelected');
+    const btnClearAll = document.getElementById('btnClearAll');
+    const btnExportCSV = document.getElementById('btnExportCSV');
+    const btnImportCSV = document.getElementById('btnImportCSV');
+    const importCSVInput = document.getElementById('importCSV');
+    const paginationDiv = document.getElementById('pagination');
+
+    let currentPage = 1;
+    let currentSort = { field: null, direction: null };
+
+    function saveToStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(assignments));
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, function(m) {
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+      });
+    }
+
+    function compareValues(key, order = 'asc') {
+      return function(a, b) {
+        if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) return 0;
+        let varA = a[key];
+        let varB = b[key];
+        if(key === 'dueDate') {
+          varA = new Date(varA);
+          varB = new Date(varB);
+        } else {
+          varA = typeof varA === 'string' ? varA.toUpperCase() : varA;
+          varB = typeof varB === 'string' ? varB.toUpperCase() : varB;
+        }
+        let comparison = 0;
+        if(varA > varB) comparison = 1;
+        else if(varA < varB) comparison = -1;
+        return order === 'desc' ? comparison * -1 : comparison;
+      };
+    }
+
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+      paginationDiv.innerHTML = '';
+      if(totalPages <= 1) return;
+
+      for(let i=1; i<=totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.classList.toggle('active', i === currentPage);
+        btn.addEventListener('click', () => {
+          currentPage = i;
+          renderAssignments();
+        });
+        paginationDiv.appendChild(btn);
+      }
+    }
+
+    function renderAssignments() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      const courseFilter = filterCourse.value;
+
+      let filtered = assignments.filter(a => {
+        const matchesSearch = a.title.toLowerCase().includes(searchTerm) || a.course.toLowerCase().includes(searchTerm);
+        const matchesCourse = courseFilter ? a.course === courseFilter : true;
+        return matchesSearch && matchesCourse;
+      });
+
+      // Sort
+      if(currentSort.field) {
+        filtered.sort(compareValues(currentSort.field, currentSort.direction));
+      }
+
+      // Pagination
+      const totalItems = filtered.length;
+      const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+      if(currentPage > totalPages) currentPage = totalPages || 1;
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const paged = filtered.slice(start, start + PAGE_SIZE);
+
+      if(paged.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No assignments found.</td></tr>';
+        paginationDiv.innerHTML = '';
+        btnDeleteSelected.disabled = true;
+        selectAllCheckbox.checked = false;
+        return;
+      }
+
+      tbody.innerHTML = paged.map(a => `
+        <tr data-id="${a.id}" class="${a.completed ? 'completed' : ''}">
+          <td><input type="checkbox" class="select-assignment" aria-label="Select assignment ${escapeHtml(a.title)}" /></td>
+          <td><input class="editable" type="text" value="${escapeHtml(a.title)}" data-field="title" aria-label="Edit assignment title"></td>
+          <td>
+            <select class="editable" data-field="course" aria-label="Edit course">
+              <option value="CSE101" ${a.course === 'CSE101' ? 'selected' : ''}>CSE101</option>
+              <option value="CSE201" ${a.course === 'CSE201' ? 'selected' : ''}>CSE201</option>
+              <option value="CSE301" ${a.course === 'CSE301' ? 'selected' : ''}>CSE301</option>
+            </select>
+          </td>
+          <td><input class="editable" type="date" value="${a.dueDate}" data-field="dueDate" aria-label="Edit due date"></td>
+          <td><span class="badge">${a.submissions}</span></td>
+          <td><input type="checkbox" class="completed-checkbox" ${a.completed ? 'checked' : ''} aria-label="Mark assignment ${escapeHtml(a.title)} as completed" /></td>
+          <td>
+            <button class="action-btn view-btn" onclick="viewSubmissions(${a.id})" aria-label="View submissions for ${escapeHtml(a.title)}">View Submissions</button>
+            ${a.title.toLowerCase().includes('quiz') ? 
+              `<button class="action-btn grade-btn" onclick="gradeQuiz(${a.id})" aria-label="Grade quiz for ${escapeHtml(a.title)}">Grade Quiz</button>` : 
+              `<button class="action-btn details-btn" onclick="viewDetails(${a.id})" aria-label="View details for ${escapeHtml(a.title)}">View Details</button>`
+            }
+            <button class="action-btn delete-btn" onclick="deleteAssignment(${a.id})" aria-label="Delete ${escapeHtml(a.title)}">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Attach change listeners for inline editing
+      document.querySelectorAll('#assignmentsTbody .editable').forEach(el => {
+        el.addEventListener('change', onEditChange);
+      });
+
+      // Attach change listeners for completed checkbox
+      document.querySelectorAll('#assignmentsTbody .completed-checkbox').forEach(el => {
+        el.addEventListener('change', onCompletedChange);
+      });
+
+      // Attach change listeners for select checkboxes
+      document.querySelectorAll('#assignmentsTbody .select-assignment').forEach(el => {
+        el.addEventListener('change', onSelectChange);
+      });
+
+      // Update select all checkbox state
+      updateSelectAllCheckbox();
+
+      // Update bulk delete button state
+      updateDeleteSelectedButton();
+
+      // Render pagination
+      renderPagination(totalItems);
+    }
+
+    function onEditChange(e) {
+      const el = e.target;
+      const tr = el.closest('tr');
+      const id = Number(tr.dataset.id);
+      const field = el.dataset.field;
+      let value = el.value.trim();
+
+      if(field === 'title' && value === '') {
+        alert('Assignment title cannot be empty.');
+        renderAssignments();
+        return;
+      }
+      if(field === 'dueDate' && !value) {
+        alert('Please select a valid due date.');
+        renderAssignments();
+        return;
+      }
+      if(field === 'course' && !value) {
+        alert('Please select a course.');
+        renderAssignments();
+        return;
+      }
+
+      const assignment = assignments.find(a => a.id === id);
+      if(assignment) {
+        assignment[field] = value;
+        saveToStorage();
+        renderAssignments();
+      }
+    }
+
+    function onCompletedChange(e) {
+      const el = e.target;
+      const tr = el.closest('tr');
+      const id = Number(tr.dataset.id);
+      const assignment = assignments.find(a => a.id === id);
+      if(assignment) {
+        assignment.completed = el.checked;
+        saveToStorage();
+        renderAssignments();
+      }
+    }
+
+    function onSelectChange() {
+      updateSelectAllCheckbox();
+      updateDeleteSelectedButton();
+    }
+
+    function updateSelectAllCheckbox() {
+      const checkboxes = document.querySelectorAll('.select-assignment');
+      const checkedBoxes = document.querySelectorAll('.select-assignment:checked');
+      selectAllCheckbox.checked = checkboxes.length > 0 && checkedBoxes.length === checkboxes.length;
+      selectAllCheckbox.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < checkboxes.length;
+    }
+
+    function updateDeleteSelectedButton() {
+      const checkedBoxes = document.querySelectorAll('.select-assignment:checked');
+      btnDeleteSelected.disabled = checkedBoxes.length === 0;
+    }
+
+    selectAllCheckbox.addEventListener('change', () => {
+      const checked = selectAllCheckbox.checked;
+      document.querySelectorAll('.select-assignment').forEach(cb => cb.checked = checked);
+      updateDeleteSelectedButton();
+    });
+
+    btnDeleteSelected.addEventListener('click', () => {
+      const checkedBoxes = document.querySelectorAll('.select-assignment:checked');
+      if(checkedBoxes.length === 0) return;
+      if(confirm(`Are you sure you want to delete ${checkedBoxes.length} selected assignment(s)?`)) {
+        const idsToDelete = Array.from(checkedBoxes).map(cb => Number(cb.closest('tr').dataset.id));
+        assignments = assignments.filter(a => !idsToDelete.includes(a.id));
+        saveToStorage();
+        currentPage = 1;
+        renderAssignments();
+      }
+    });
+
+    btnClearAll.addEventListener('click', () => {
+      if(assignments.length === 0) {
+        alert('No assignments to clear.');
+        return;
+      }
+      if(confirm('Are you sure you want to clear all assignments? This action cannot be undone.')) {
+        assignments = [];
+        saveToStorage();
+        currentPage = 1;
+        renderAssignments();
+      }
+    });
+
+    btnExportCSV.addEventListener('click', () => {
+      if(assignments.length === 0) {
+        alert('No assignments to export.');
+        return;
+      }
+      const header = ['id','title','course','dueDate','submissions','completed'];
+      const rows = assignments.map(a => [
+        a.id,
+        `"${a.title.replace(/"/g, '""')}"`,
+        a.course,
+        a.dueDate,
+        a.submissions,
+        a.completed ? 'true' : 'false'
+      ]);
+      const csvContent = [header, ...rows].map(e => e.join(',')).join('\n');
+      const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'assignments.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    btnImportCSV.addEventListener('click', () => {
+      importCSVInput.click();
+    });
+
+    importCSVInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const text = event.target.result;
+        importFromCSV(text);
+      };
+      reader.readAsText(file);
+      importCSVInput.value = '';
+    });
+      const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+      const requiredHeaders = ['id','title','course','duedate','submissions','completed'];
+      if(!requiredHeaders.every(h => header.includes(h))) {
+        alert('CSV missing required headers: ' + requiredHeaders.join(', '));
+        return;
+      }
+      const idIndex = header.indexOf('id');
+      const titleIndex = header.indexOf('title');
+      const courseIndex = header.indexOf('course');
+      const dueDateIndex = header.indexOf('duedate');
+      const submissionsIndex = header.indexOf('submissions');
+      const completedIndex = header.indexOf('completed');
+
+     
+      for(let i=1; i<lines.length; i++) {
+        const row = parseCSVLine(lines[i]);
+        if(row.length !== header.length) continue;
+        const id = Number(row[idIndex]);
+        const title = row[titleIndex].replace(/^"|"$/g, '').replace(/""/g, '"');
+        const course = row[courseIndex];
+        const dueDate = row[dueDateIndex];
+        const submissions = row[submissionsIndex];
+        const completed = row[completedIndex].toLowerCase() === 'true';
+
+        if(!title || !course || !dueDate) continue;
+
+        // Avoid duplicate IDs, assign new ID if conflict
+        let newId = id;
+        if(assignments.some(a => a.id === id)) {
+          newId = assignments.length ? Math.max(...assignments.map(a => a.id)) + 1 : 1;
+        }
+      }
+    }
+
+    // Simple CSV line parser supporting quoted commas
+    function parseCSVLine(line) {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+      for(let i=0; i<line.length; i++) {
+        const char = line[i];
+        if(char === '"' && (i === 0 || line[i-1] !== '\\')) {
+          inQuotes = !inQuotes;
+          continue;
+        }
+        if(char === ',' && !inQuotes) {
+          result.push(current);
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      result.push(current);
+      return result;
+    }
+
+    function viewSubmissions(id) {
+      const assignment = assignments.find(a => a.id === id);
+      alert(`View submissions for assignment: ${assignment ? assignment.title : id}`);
+    }
+    window.viewSubmissions = viewSubmissions;
+
+    function gradeQuiz(id) {
+      const assignment = assignments.find(a => a.id === id);
+      alert(`Grade quiz for assignment: ${assignment ? assignment.title : id}`);
+    }
+    window.gradeQuiz = gradeQuiz;
+
+    function viewDetails(id) {
+      const assignment = assignments.find(a => a.id === id);
+      alert(`View details for assignment: ${assignment ? assignment.title : id}`);
+    }
+    window.viewDetails = viewDetails;
+
+    window.deleteAssignment = function(id) {
+      if(confirm('Are you sure you want to delete this assignment?')) {
+        assignments = assignments.filter(a => a.id !== id);
+        saveToStorage();
+        currentPage = 1;
+        renderAssignments();
+      }
+    };
+
+    btnCreate.addEventListener('click', () => {
+      const title = inputTitle.value.trim();
+      const dueDate = inputDueDate.value;
+      const course = selectCourse.value;
+
+      if(!title) {
+        alert("Please enter an assignment title.");
+        return;
+      }
+      if(!course) {
+        alert("Please select a course.");
+        return;
+      }
+      if(!dueDate) {
+        alert("Please select a due date.");
+        return;
+      }
+
+      const newAssignment = {
+        id: assignments.length ? assignments[assignments.length - 1].id + 1 : 1,
+        title,
+        course,
+        dueDate,
+        submissions: "0/30",
+        completed: false
+      };
+      assignments.push(newAssignment);
+      saveToStorage();
+      renderAssignments();
+      inputTitle.value = '';
+      inputDueDate.value = '';
+      selectCourse.value = '';
+      alert("Assignment created successfully!");
+    });
+
+    searchInput.addEventListener('input', () => {
+      currentPage = 1;
+      renderAssignments();
+    });
+    filterCourse.addEventListener('change', () => {
+      currentPage = 1;
+      renderAssignments();
+    });
+
+    // Sorting
+    document.querySelectorAll('th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const field = th.getAttribute('data-sort');
+        if(currentSort.field === field) {
+          currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+          currentSort.field = field;
+          currentSort.direction = 'asc';
+        }
+        // Update sort indicators
+        document.querySelectorAll('th[data-sort]').forEach(h => {
+          h.classList.remove('sort-asc', 'sort-desc');
+          if(h.getAttribute('data-sort') === currentSort.field) {
+            h.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+          }
+        });
+        renderAssignments();
+      });
+      // Keyboard accessibility
+      th.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          th.click();
+        }
+      });
+    });
+
+    // Initial render
+    renderAssignments();
+  </script>
+</body>
+</html>

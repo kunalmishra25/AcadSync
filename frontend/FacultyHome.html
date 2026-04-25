@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faculty Dashboard - CloudCampus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Your existing styles unchanged */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    :root {
+      --primary-color: #1a2a3a;
+      --secondary-color: #4285f4;
+      --accent-color: #ff5252;
+      --light-color: #f8f9fa;
+      --dark-color: #1a2a3a;
+      --success-color: #34c759;
+      --warning-color: #ff9500;
+      --text-color: #333333;
+      --text-light: #6c757d;
+      --border-radius: 8px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      --transition: all 0.3s ease;
+    }
+    body {
+      background-color: var(--light-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1.2rem 0;
+      box-shadow: var(--box-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: var(--transition);
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      height: 45px;
+      margin-right: 12px;
+      transition: var(--transition);
+    }
+    .logo h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, #ffffff, #e0e0e0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+    .faculty-badge {
+      background: linear-gradient(135deg, var(--warning-color), #ffb74d);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 1rem;
+      box-shadow: 0 4px 10px rgba(255, 149, 0, 0.3);
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    nav ul li {
+      margin: 0;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 0.5rem 0.8rem;
+      border-radius: var(--border-radius);
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    nav ul li a:not(.btn)::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background-color: var(--secondary-color);
+      transition: var(--transition);
+      transform: translateX(-50%);
+    }
+    nav ul li a:not(.btn):hover::after {
+      width: 80%;
+    }
+    nav ul li a:hover {
+      color: var(--secondary-color);
+    }
+    nav ul li a.active {
+      color: var(--secondary-color);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.2rem;
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 6px rgba(66, 133, 244, 0.25);
+      letter-spacing: 0.5px;
+      min-height: 40px;
+      white-space: nowrap;
+    }
+    .btn:hover {
+      background-color: #2980b9;
+    }
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--secondary-color);
+      color: var(--secondary-color);
+    }
+    .btn-outline:hover {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    .btn-danger {
+      background-color: var(--accent-color);
+    }
+    .btn-danger:hover {
+      background-color: #d32f2f;
+    }
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(26, 42, 58, 0.85), rgba(26, 42, 58, 0.9)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') no-repeat center center/cover;
+      color: white;
+      padding: 7rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      right: -50px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(-2deg);
+    }
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      animation: fadeInDown 1s ease-out;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      opacity: 0.9;
+      animation: fadeInUp 1s ease-out 0.3s forwards;
+      animation-fill-mode: both;
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 0.9;
+        transform: translateY(0);
+      }
+    }
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      animation: fadeIn 1s ease-out 0.6s forwards;
+      opacity: 0;
+      animation-fill-mode: both;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    /* Quick Actions Section */
+    .quick-actions {
+      padding: 4rem 0;
+      background-color: white;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title p {
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 1.5rem auto 0;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    .action-card {
+      background: linear-gradient(135deg, var(--primary-color), #2c3e50);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+      outline: none;
+      user-select: none;
+    }
+    .action-card:hover,
+    .action-card:focus {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    .action-card:focus {
+      outline: 3px solid var(--secondary-color);
+      outline-offset: 3px;
+    }
+    .action-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .action-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    .action-card p {
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    /* Stats Section */
+    .stats {
+      background: linear-gradient(135deg, var(--primary-color), #2c3e50);
+      color: white;
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 3rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-item {
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .stat-item:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .stat-item h3 {
+      font-size: 3rem;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(90deg, var(--secondary-color), #5c6bc0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      font-weight: 700;
+    }
+    .stat-item p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    /* Footer */
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 4rem 0 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-column h3 {
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      color: white;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 8px;
+    }
+    .footer-column ul {
+      list-style: none;
+    }
+    .footer-column ul li {
+      margin-bottom: 0.8rem;
+    }
+    .footer-column ul li a {
+      color: #ddd;
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-block;
+    }
+    .footer-column ul li a:hover {
+      color: var(--secondary-color);
+    }
+    .footer-column p {
+      color: #aaa;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .copyright {
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #aaa;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
+    }
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .container {
+        padding: 0 30px;
+      }
+      .stats-grid, .actions-grid {
+        gap: 2rem;
+      }
+      .footer-grid {
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem 0;
+      }
+      .logo {
+        margin-bottom: 1rem;
+        justify-content: center;
+      }
+      .faculty-badge {
+        margin-left: 0;
+        margin-top: 0.5rem;
+      }
+      nav ul {
+        margin-top: 1.2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+      }
+      nav ul li {
+        margin: 0;
+      }
+      nav ul li a {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
+      }
+      nav ul li a.btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        min-height: 36px;
+      }
+      .hero {
+        padding: 5rem 0;
+      }
+      .hero h2 {
+        font-size: 2.2rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      .section-title h2 {
+        font-size: 2rem;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .stat-item h3 {
+        font-size: 2.5rem;
+      }
+      .actions-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2.5rem;
+      }
+      .footer-column h3 {
+        display: block;
+      }
+      .footer-column ul li a {
+        padding-left: 0;
+      }
+    }
+    @media (max-width: 576px) {
+      .container {
+        padding: 0 20px;
+      }
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .section-title h2 {
+        font-size: 1.8rem;
+      }
+      .section-title p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <div class="logo">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/graduation-cap.png" alt="Logo" />
+        <h1>CloudCampus</h1> <span class="faculty-badge">FACULTY</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="FacultyHome.html" class="active" aria-current="page">Dashboard</a></li>
+          <li><a href="my-classes.html">My Classes</a></li>
+          <li><a href="grades.html">Grades</a></li>
+          <li><a href="Assignment.html">Assignments</a></li>
+          <li><a href="attendance.html">Attendance</a></li>
+          <li><a href="teaching-resources.html">Teaching Resources</a></li>
+        <!--  <li><a href="communication.html">Communication</a></li> -->
+          <li><a href="RoleLogin.html" class="btn btn-danger">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" role="banner">
+    <div class="container">
+      <h2>Faculty Dashboard</h2>
+      <p>Welcome back, Professor! Manage your classes, track student progress, and access teaching resources from your comprehensive faculty dashboard.</p>
+      <div class="hero-buttons" role="navigation" aria-label="Primary actions">
+        <a href="my-classes.html" class="btn">View Classes</a>
+        <a href="grades.html" class="btn btn-outline">Grade Center</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Actions Section -->
+       <section class="quick-actions" aria-label="Quick actions">
+      <div class="container">
+        <div class="section-title">
+          <h2>Quick Actions</h2>
+          <p>Access the most frequently used teaching functions with just one click.</p>
+        </div>
+        <div class="actions-grid">
+          <div class="action-card" role="link" tabindex="0" aria-label="Access My Classes" 
+               onclick="window.location.href='my-classes.html'" 
+               onkeypress="if(event.key==='Enter'){window.location.href='my-classes.html'}">
+            <span class="action-icon" aria-hidden="true">📚</span>
+            <h3>My Classes</h3>
+            <p>View and manage your current course schedules and class rosters</p>
+            <a href="my-classes.html" class="btn" tabindex="-1" aria-hidden="true">Access</a>
+          </div>
+          <div class="action-card" role="link" tabindex="0" aria-label="Access Grade Center" 
+               onclick="window.location.href='grades.html'" 
+               onkeypress="if(event.key==='Enter'){window.location.href='grades.html'}">
+            <span class="action-icon" aria-hidden="true">📊</span>
+            <h3>Grade Center</h3>
+            <p>Enter grades, view student performance, and generate grade reports</p>
+            <a href="grades.html" class="btn" tabindex="-1" aria-hidden="true">Access</a>
+          </div>
+          <div class="action-card" role="link" tabindex="0" aria-label="Access Assignments" 
+               onclick="window.location.href='assignments.html'" 
+               onkeypress="if(event.key==='Enter'){window.location.href='assignments.html'}">
+            <span class="action-icon" aria-hidden="true">📝</span>
+            <h3>Assignments</h3>
+            <p>Create, manage, and grade assignments and projects</p>
+            <a href="Assignment.html" class="btn" tabindex="-1" aria-hidden="true">Access</a>
+          </div>
+          <div class="action-card" role="link" tabindex="0" aria-label="Access Attendance" 
+               onclick="window.location.href='attendance.html'" 
+               onkeypress="if(event.key==='Enter'){window.location.href='attendance.html'}">
+            <span class="action-icon" aria-hidden="true">✅</span>
+            <h3>Attendance</h3>
+            <p>Track student attendance and manage class participation</p>
+            <a href="attendance.html" class="btn" tabindex="-1" aria-hidden="true">Access</a>
+          </div>
+          <div class="action-card" role="link" tabindex="0" aria-label="Access Teaching Resources" 
+               onclick="window.location.href='teaching-resources.html'" 
+               onkeypress="if(event.key==='Enter'){window.location.href='teaching-resources.html'}">
+            <span class="action-icon" aria-hidden="true">📁</span>
+            <h3>Teaching Resources</h3>
+            <p>Access course materials, syllabi, and educational resources</p>
+            <a href="teaching-resources.html" class="btn" tabindex="-1" aria-hidden="true">Access</a>
+          </div>
+          <div class="action-card" role="link" tabindex="0" aria-label="Access Communication" 
+               onclick="window.location.href='communication.html'" 
+               onkeypress="if(event.key==='Enter'){window.location.href='communication.html'}">
+            <span class="action-icon" aria-hidden="true">💬</span>
+            <h3>Communication</h3>
+            <p>Send announcements and communicate with students</p>
+            <a href="communication.html" class="btn" tabindex="-1" aria-hidden="true">Access</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" aria-label="Statistics overview">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item" role="region" aria-labelledby="classCountLabel">
+            <h3 id="classCount">4</h3>
+            <p id="classCountLabel">Active Classes</p>
+          </div>
+          <div class="stat-item" role="region" aria-labelledby="studentCountLabel">
+            <h3 id="studentCount">127</h3>
+            <p id="studentCountLabel">Total Students</p>
+          </div>
+          <div class="stat-item" role="region" aria-labelledby="assignmentCountLabel">
+            <h3 id="assignmentCount">23</h3>
+            <p id="assignmentCountLabel">Pending Grades</p>
+          </div>
+          <div class="stat-item" role="region" aria-labelledby="attendanceRateLabel">
+            <h3 id="attendanceRate">92.5%</h3>
+            <p id="attendanceRateLabel">Average Attendance</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h3>CloudCampus Faculty</h3>
+            <p>Comprehensive faculty dashboard for managing classes, grades, and student interactions efficiently.</p>
+          </div>
+          <div class="footer-column">
+            <h3>Faculty Tools</h3>
+            <ul>
+              <li><a href="#">Class Management</a></li>
+              <li><a href="#">Grade Center</a></li>
+              <li><a href="#">Assignment Tools</a></li>
+              <li><a href="#">Student Analytics</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="#">Faculty Guide</a></li>
+              <li><a href="#">Technical Support</a></li>
+              <li><a href="#">Training Resources</a></li>
+              <li><a href="#">Contact IT</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2025 CloudCampus Faculty Dashboard. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Faculty Dashboard JavaScript
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeDashboard();
+      });
+
+      function initializeDashboard() {
+        console.log('Faculty Dashboard initialized successfully');
+      }
+
+      // Updated navigateTo function to real navigation
+      function navigateTo(page) {
+        switch(page) {
+          case 'classes':
+            window.location.href = 'my-classes.html';
+            break;
+          case 'grades':
+            window.location.href = 'grades.html';
+            break;
+          case 'resources':
+            window.location.href = 'teaching-resources.html';
+            break;
+          case 'communication':
+            window.location.href = 'communication.html';
+            break;
+          case 'assignment':
+            window.location.href = 'Assignment.html';
+            break;
+          default:
+            alert(`Navigate to ${page} page (not implemented)`);
+        }
+      }
+
+      // Logout functionality
+      const logoutBtn = document.querySelector('.btn-danger');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (confirm('Are you sure you want to logout?')) {
+            console.log('Logging out...');
+            setTimeout(() => {
+              window.location.href = 'RoleLogin.html';
+            }, 1000);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
