@@ -94,7 +94,7 @@ const RoleSignup = () => {
       <div className="signup-card">
         <div className="signup-left">
           <div className="logo">
-            <img src="/AS-logo.png" alt="AcadSync Logo" style={{ height: "120px", width: "120px" }} />
+            <img src="/AS-logo.png" alt="AcadSync Logo" />
             <h1>AcadSync</h1>
           </div>
           <div className="create-account-pill">Create Account</div>
@@ -125,7 +125,7 @@ const RoleSignup = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className="form-group full-width">
               <label htmlFor="email">Email</label>
               <input
                 id="email"
@@ -137,7 +137,7 @@ const RoleSignup = () => {
               />
             </div>
             {role === "Student" && (
-              <div className="form-group">
+              <div className="form-group full-width">
                 <label htmlFor="rollId">Roll ID (Students only)</label>
                 <input
                   id="rollId"
