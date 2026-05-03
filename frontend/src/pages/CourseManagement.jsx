@@ -118,12 +118,13 @@ const CourseManagement = () => {
             <input id="department" value={form.department} onChange={handleInputChange} type="text" placeholder="Department" />
             <input id="credits" value={form.credits} onChange={handleInputChange} type="number" min="1" max="6" placeholder="Credits" />
           </div>
-          <div className="form-row" style={{ gridTemplateColumns: "1fr auto" }}>
+          <div className="form-row form-row-submit">
             <input id="instructor" value={form.instructor} onChange={handleInputChange} type="text" placeholder="Instructor" />
             <button className="btn" onClick={addCourse}>Add Course</button>
           </div>
 
-          <table className="table">
+          <div className="table-responsive">
+            <table className="table">
             <thead>
               <tr>
                 <th>#</th>
@@ -150,7 +151,8 @@ const CourseManagement = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          </div>
 
           <div style={{ marginTop: 20, display: "flex", justifyContent: "flex-end", gap: "10px" }}>
             <button className="btn btn-outline" onClick={clearAll}>Clear All</button>

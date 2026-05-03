@@ -139,14 +139,15 @@ const ManageFaculty = () => {
             <input type="email" placeholder="Email" value={facEmail} onChange={(e) => setFacEmail(e.target.value)} />
             <input type="text" placeholder="Department" value={facDept} onChange={(e) => setFacDept(e.target.value)} />
           </div>
-          <div className="form-row" style={{ gridTemplateColumns: "1fr auto" }}>
+          <div className="form-row form-row-submit">
             <input type="text" placeholder="Designation" value={facDesignation} onChange={(e) => setFacDesignation(e.target.value)} />
             <button className="btn" onClick={addFacultyFromForm}>
               Add Faculty
             </button>
           </div>
 
-          <table className="table">
+          <div className="table-responsive">
+            <table className="table">
             <thead>
               <tr>
                 <th>#</th>
@@ -185,7 +186,8 @@ const ManageFaculty = () => {
                 </tr>
               )}
             </tbody>
-          </table>
+            </table>
+          </div>
         </div>
       </section>
 

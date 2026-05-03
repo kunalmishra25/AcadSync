@@ -81,6 +81,7 @@ const StudentFees = () => {
           </div>
 
           <div className="fees-table">
+          <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
@@ -107,6 +108,7 @@ const StudentFees = () => {
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
 
           <div className="payment-methods">

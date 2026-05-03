@@ -136,6 +136,7 @@ const PostAnnouncements = () => {
           </div>
 
           <div className="announcements-list">
+          <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
@@ -168,6 +169,7 @@ const PostAnnouncements = () => {
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
         </div>
       </div>

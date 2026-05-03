@@ -283,6 +283,12 @@
 }
 
 @media (max-width: 900px) {
+  .login-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
   .login-card {
     flex-direction: column;
     height: auto;

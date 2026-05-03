@@ -97,7 +97,8 @@ function FacultyAssignments() {
           </div>
         </div>
 
-        <table className="submissions-table">
+        <div className="table-responsive">
+          <table className="submissions-table">
           <thead>
             <tr>
               <th>Student ID</th>
@@ -132,7 +133,8 @@ function FacultyAssignments() {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
 
         <button className="save-btn" onClick={saveMarks}>
           Save Marks

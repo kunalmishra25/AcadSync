@@ -95,6 +95,7 @@ const FacultyGrades = () => {
           </div>
 
           <div className="grades-table">
+          <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
@@ -173,6 +174,7 @@ const FacultyGrades = () => {
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
 
           <div className="actions-bar" style={{ marginTop: "2rem" }}>

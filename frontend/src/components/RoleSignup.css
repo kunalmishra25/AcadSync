@@ -289,6 +289,12 @@
 }
 
 @media (max-width: 900px) {
+  .signup-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
   .signup-card {
     flex-direction: column;
     height: auto;

@@ -79,7 +79,8 @@ function FacultyAttendance() {
         </div>
 
         <div className="attendance-table-container">
-          <table className="attendance-table">
+          <div className="table-responsive">
+            <table className="attendance-table">
             <thead>
               <tr>
                 <th>Student ID</th>
@@ -117,6 +118,7 @@ function FacultyAttendance() {
               ))}
             </tbody>
           </table>
+          </div>
 
           <div className="table-footer">
             <button className="btn btn-primary" onClick={saveAttendance}>

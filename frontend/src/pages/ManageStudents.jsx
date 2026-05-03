@@ -141,13 +141,14 @@ const ManageStudents = () => {
             <input id="stEmail" type="email" placeholder="Email" value={stEmail} onChange={(e) => setStEmail(e.target.value)} />
             <input id="stCourse" type="text" placeholder="Course" value={stCourse} onChange={(e) => setStCourse(e.target.value)} />
           </div>
-          <div className="form-row" style={{ gridTemplateColumns: "1fr auto" }}>
+          <div className="form-row form-row-submit">
             <input id="stYear" type="number" min="1" max="5" placeholder="Year" value={stYear} onChange={(e) => setStYear(e.target.value)} />
             <button className="btn" onClick={addStudentFromForm}>
               Add Student
             </button>
           </div>
-          <table className="table">
+          <div className="table-responsive">
+            <table className="table">
             <thead>
               <tr>
                 <th>#</th>
@@ -186,7 +187,8 @@ const ManageStudents = () => {
                 </tr>
               )}
             </tbody>
-          </table>
+            </table>
+          </div>
         </div>
       </section>
 

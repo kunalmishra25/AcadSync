@@ -43,6 +43,7 @@ const StudentAttendance = () => {
           </div>
 
           <div className="attendance-table">
+          <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
@@ -69,6 +70,7 @@ const StudentAttendance = () => {
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
 
           <div className="actions-bar" style={{ marginTop: "2rem" }}>
